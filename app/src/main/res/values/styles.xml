@@ -1,0 +1,85 @@
+<resources>
+
+    <!-- Base application theme. -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ButtonLayout">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <item name="menuButtonLayout" type="id">menuButtonLayout</item>
+    <style name="ButtonLayout.MenuButton">
+        <item name="android:id">@id/menuButtonLayout</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <item name="numberButtonLayout" type="id">numberButtonLayout</item>
+    <style name="ButtonLayout.NumberButton">
+        <item name="android:id">@id/numberButtonLayout</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <item name="decimalButtonLayout" type="id">decimalButtonLayout</item>
+    <style name="ButtonLayout.DecimalButton">
+        <item name="android:id">@id/decimalButtonLayout</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <item name="equalsButtonLayout" type="id">equalsButtonLayout</item>
+    <style name="ButtonLayout.EqualsButton">
+        <item name="android:id">@id/equalsButtonLayout</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <item name="basicOperatorButtonLayout" type="id">basicOperatorButtonLayout</item>
+    <style name="ButtonLayout.BasicOperatorButton">
+        <item name="android:id">@id/basicOperatorButtonLayout</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+
+    <style name="Button" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/selector_button_background</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">fill_parent</item>
+    </style>
+
+    <style name="Button.Number">
+        <item name="android:textSize">@dimen/number_button_text_size</item>
+        <item name="android:contentDescription">@string/number_button_content_desc</item>
+    </style>
+
+    <style name="Button.Number.Decimal"/>
+
+    <style name="Button.Number.Equals"/>
+
+    <style name="Button.Operator">
+        <item name="android:textSize">@dimen/operator_button_text_size</item>
+    </style>
+
+    <style name="Button.Menu">
+        <item name="android:textSize">@dimen/menu_button_text_size</item>
+    </style>
+
+
+    <style name="NumberButtonRow">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:weightSum">3</item>
+    </style>
+
+
+
+</resources>
