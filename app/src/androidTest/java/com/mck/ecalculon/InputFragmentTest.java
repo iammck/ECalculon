@@ -29,7 +29,7 @@ public class InputFragmentTest extends ActivityInstrumentationTestCase2<MainActi
     public InputFragmentTest(){
         super(MainActivity.class);
     }
-
+/*
     @Test
     public void testCanClickNumberButtons(){
         onView(allOf(withText("0"),
@@ -69,4 +69,5 @@ public class InputFragmentTest extends ActivityInstrumentationTestCase2<MainActi
         onView(withText("+")).perform(click());
         onView(withText("-")).perform(click());
     }
+*/
 }

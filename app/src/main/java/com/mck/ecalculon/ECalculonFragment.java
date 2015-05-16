@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mck.ecalculon.com.mck.ecalculon.evaluator.EvaluationException;
+import com.mck.ecalculon.com.mck.ecalculon.evaluator.Evaluator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,7 +236,11 @@ public class ECalculonFragment extends Fragment {
         OutputFragment outFrag = (OutputFragment) getChildFragmentManager()
                 .findFragmentById(R.id.output_fragment_container);
         String expression = outFrag.getOutputString();
-        evaluator.evaluate(expression);
+        try {
+            evaluator.evaluate(expression);
+        } catch (EvaluationException e) {
+            e.printStackTrace();
+        }
         Log.v("com.mck", "handleEqualsInput ");
     }
 

@@ -1,14 +1,14 @@
 package com.mck.ecalculon;
 
-import android.support.v4.app.Fragment;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.mck.ecalculon.com.mck.ecalculon.evaluator.Evaluator;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -23,6 +23,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  * Created by mike on 5/2/2015.
  */
 public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<MainActivity> {
+
     private ECalculonFragment eCalculonFragment;
 
     public ECalculonFragmentTest() {
@@ -311,6 +312,19 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
                 mockEvaluator.hasBeenEvaluated);
     }
 
+
+    @Test // TODO
+    public void testEqualsForEquations() {
+        fail("Not implememnted.");
+    }
+
+    @Test // TODO
+    public void testEqualsForErrors() {
+        fail("Not implememnted.");
+    }
+
+
+
     ///////////
     // CLEAR //
     ///////////
@@ -576,6 +590,6 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
+
 }
