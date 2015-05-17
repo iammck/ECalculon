@@ -1,8 +1,6 @@
-package com.mck.ecalculon.com.mck.ecalculon.evaluator;
+package com.mck.ecalculon.evaluator;
 
 import junit.framework.TestCase;
-
-import org.junit.Test;
 
 /**
  * Created by mike on 5/11/2015.
@@ -10,24 +8,31 @@ import org.junit.Test;
 public class EvaluatorTest extends TestCase {
 
     public void testBinaryOperations() throws EvaluationException {
+        assertEvaluate("52","43+9");
         Evaluator evaluator = new Evaluator();
 
-        assertEquals("Should evaluate to 52", "52", evaluator.evaluate("43+9"));
-        assertEquals("Should evaluate to 21", "21", evaluator.evaluate("3+3+3+3+3+3+3"));
+        assertEvaluate("52", "43+9");
+        assertEvaluate("21", "3+3+3+3+3+3+3");
 
-        assertEquals("Should evaluate to 34", "34", evaluator.evaluate("43-9"));
-        assertEquals("Should evaluate to 0", "0", evaluator.evaluate("21-3-3-3-3-3-3-3"));
+        assertEvaluate("34", "43-9");
+        assertEvaluate("0", "21-3-3-3-3-3-3-3");
 
-        assertEquals("Should evaluate to 5" ,  "5", evaluator.evaluate("45/9"));
-        assertEquals("Should evaluate to 1", "1", evaluator.evaluate("1000/10/10/10"));
+        assertEvaluate("5", "45/9");
+        assertEvaluate("1", "1000/10/10/10");
 
-        assertEquals("Should evaluate to 45", "45", evaluator.evaluate("5x9"));
-        assertEquals("Should evaluate to 32", "32", evaluator.evaluate("2x2x2x2x2"));
+        assertEvaluate("45","5x9");
+        assertEvaluate("32","2x2x2x2x2");
 
-        assertEquals("Should evaluate to 7", "7", evaluator.evaluate("1+2x3"));
-        assertEquals("Should evaluate to 5", "5", evaluator.evaluate("1+2x6/3"));
-        assertEquals("Should evaluate to 6", "6", evaluator.evaluate("1+2x6/3+1"));
+        assertEvaluate("7", "1+2x3");
+        assertEvaluate("5", "1+2x6/3");
+        assertEvaluate("6", "1+2x6/3+1");
 
+    }
+
+    private void assertEvaluate(String expected, String input) throws EvaluationException {
+        Evaluator evaluator = new Evaluator();
+        assertEquals("The input " + input + " should evaluated to "
+                + expected + ".", expected, evaluator.evaluate(input));
     }
 
     public void testUnaryOperations() throws EvaluationException {
@@ -78,6 +83,12 @@ public class EvaluatorTest extends TestCase {
         assertEquals("Should evaluate to 5.0", "5.0", evaluator.evaluate("1+1.5x8/3"));
         assertEquals("Should evaluate to 6.1", "6.1", evaluator.evaluate("1.1+2x6/3+1"));
         assertEquals("Should evaluate to 2.0", "2.0", evaluator.evaluate("1+0.0x6/3+1"));
+    }
+
+    public void testDecimalCreatedInAnswer() throws EvaluationException {
+        // ie 2/3 0.66  or 2/5 = .4
+        assertEvaluate("0.66", "2/3");
+        assertEvaluate("0.4", "2/5");
     }
 
     public void testZeroAsInputExpression() throws EvaluationException {

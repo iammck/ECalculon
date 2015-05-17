@@ -28,4 +28,5 @@
     <string name="clear">Clear</string>
     <string name="zero_button_content_description">zero button</string>
     <string name="number_button_content_desc">number button</string>
+    <string name="error_output">ERROR</string>
 </resources>

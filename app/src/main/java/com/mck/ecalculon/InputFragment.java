@@ -93,12 +93,13 @@ public class InputFragment extends Fragment implements View.OnClickListener {
                 parentFragment.handleDecimalInput();
         }
 
-        if (mPlayer != null) {
+        /*if (mPlayer != null) {
             mPlayer.reset();
             mPlayer.release();
         }
         mPlayer = MediaPlayer.create(
                 getActivity().getApplicationContext(), R.raw.keypress_standard);
-        mPlayer.start();
+        mPlayer.start();*/
+
     }
 }

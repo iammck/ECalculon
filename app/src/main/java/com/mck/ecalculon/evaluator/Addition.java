@@ -1,8 +1,4 @@
-package com.mck.ecalculon.com.mck.ecalculon.evaluator;
-
-import com.mck.ecalculon.com.mck.ecalculon.evaluator.BinaryOperator;
-import com.mck.ecalculon.com.mck.ecalculon.evaluator.NumberSymbol;
-import com.mck.ecalculon.com.mck.ecalculon.evaluator.Symbol;
+package com.mck.ecalculon.evaluator;
 
 import java.util.ArrayList;
 

@@ -2,13 +2,12 @@ package com.mck.ecalculon;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mck.ecalculon.com.mck.ecalculon.evaluator.EvaluationException;
-import com.mck.ecalculon.com.mck.ecalculon.evaluator.Evaluator;
+import com.mck.ecalculon.evaluator.EvaluationException;
+import com.mck.ecalculon.evaluator.Evaluator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +20,14 @@ public class ECalculonFragment extends Fragment {
     private static final String KEY_NUMBERS = "MainActivity.KEY_NUMBERS";
     private static final String KEY_OPERATORS = "MainActivity.KEY_OPERATORS";
     private static final String KEY_INPUTS = "MainActivity.KEY_INPUTS" ;
+    private static final String KEY_WAS_ERROR = "MainActivity.KEY_WAS_ERROR";
+    private static final String KEY_WAS_EQUALS = "MainActivity.KEY_WAS_EQUALS";
+
     private Evaluator evaluator;
     private ArrayList<String> numbers;
     private ArrayList<String> operators;
     private boolean wasError = false;
+    private boolean wasLastInputEquals = false;
     private OutputFragment outputFragment;
     private ArrayList<InputTypes> inputHistory;
     private enum InputTypes {
@@ -51,7 +54,7 @@ public class ECalculonFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View result = inflater.inflate(R.layout.ecalculon_fragment,container, false);
+        View result = inflater.inflate(R.layout.ecalculon_fragment, container, false);
         // no saved state, set up the fragments
         if (savedInstanceState == null){
             // No saved state, set up local variables to defaults.
@@ -73,7 +76,8 @@ public class ECalculonFragment extends Fragment {
             operators = savedInstanceState.getStringArrayList(KEY_OPERATORS);
             ArrayList<String> inputsAsStrings = savedInstanceState.getStringArrayList(KEY_INPUTS);
             inputHistory = InputTypes.fromStringArrayList(inputsAsStrings);
-
+            wasError = savedInstanceState.getBoolean(KEY_WAS_ERROR);
+            wasLastInputEquals = savedInstanceState.getBoolean(KEY_WAS_EQUALS);
         }
         return result;
     }
@@ -85,12 +89,15 @@ public class ECalculonFragment extends Fragment {
         outState.putStringArrayList(KEY_OPERATORS, operators);
         ArrayList<String> inputsAsStrings  = InputTypes.toStringArrayList(inputHistory);
         outState.putStringArrayList(KEY_INPUTS, inputsAsStrings);
+        outState.putBoolean(KEY_WAS_ERROR, wasError);
+        outState.putBoolean(KEY_WAS_EQUALS, wasLastInputEquals);
     }
 
     public void handleNumberInput(String number) {
         if(hasMaxOutput()){
             return;
         }
+        wasLastInputEquals = false;
         // if last item in numbers is just a "0", replace it.
         if (numbers.get(numbers.size() - 1).equals("0")){
             numbers.set(numbers.size() - 1, number);
@@ -99,6 +106,7 @@ public class ECalculonFragment extends Fragment {
             numbers.set(numbers.size() - 1, current + number);
         }
 
+        // no input history or error, just overwrite output.
         if (inputHistory.size() == 0 || wasError) {
             getOutputFragment().setOutput(number);
             wasError = false;
@@ -112,7 +120,17 @@ public class ECalculonFragment extends Fragment {
     public void handleOperatorInput(String operator) {
         if(hasMaxOutput()){
             return;
-        }// Get previous input type it is either null or the last one recorded.
+        }
+        // if there was an equals,
+        if (wasLastInputEquals){
+            // use the output as input one char at a time.
+            String output = getOutputFragment().getOutputString();
+            for(int index = 0; index < output.length(); index++){
+                handleNumberInput(String.valueOf(output.charAt(index)));
+            }
+            wasLastInputEquals = false;
+        }
+        // Get previous input type it is either null or the last one recorded.
         int hSize = inputHistory.size();
         InputTypes prevType = (hSize == 0 )? null: inputHistory.get(hSize -1);
 
@@ -151,6 +169,7 @@ public class ECalculonFragment extends Fragment {
             numbers.add("0");
             operators = new ArrayList<String>();
             wasError = false;
+            wasLastInputEquals = false;
             // nothing else to do, return.
             return;
         } // there is at least one input to undo.
@@ -224,29 +243,38 @@ public class ECalculonFragment extends Fragment {
     }
 
     public void handleClearInput(){
-        getOutputFragment().removeLastChar();
         getOutputFragment().setOutput("0");
         numbers.clear();
         numbers.add("0");
         operators.clear();
         inputHistory.clear();
+        wasLastInputEquals = false;
+        wasError = false;
     }
 
     public void handleEqualsInput() {
-        OutputFragment outFrag = (OutputFragment) getChildFragmentManager()
-                .findFragmentById(R.id.output_fragment_container);
+        OutputFragment outFrag = getOutputFragment();
         String expression = outFrag.getOutputString();
+        handleClearInput();
         try {
-            evaluator.evaluate(expression);
+            String result = evaluator.evaluate(expression);
+            wasLastInputEquals = true;
+            outFrag.setOutput(result);
         } catch (EvaluationException e) {
             e.printStackTrace();
+            wasError = true;
+            outFrag.setError();
         }
-        Log.v("com.mck", "handleEqualsInput ");
     }
 
     public void handleDecimalInput() {
         if(hasMaxOutput()){
             return;
+        }
+        // if there was an equals previously, clean up output
+        if (wasLastInputEquals){
+            getOutputFragment().setOutput("0");
+            wasLastInputEquals = false;
         }
         if (hasDecimal()){
             return;

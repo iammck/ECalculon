@@ -76,7 +76,7 @@ public class OutputFragment extends Fragment {
     public void setError() {
         if (getView() != null){
             TextView output = (TextView) getView().findViewById(R.id.output);
-            String s = "ERROR";
+            String s = getResources().getString(R.string.error_output);
             output.setText(s);
             currentOutput = output.getText().toString();
         }

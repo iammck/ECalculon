@@ -1,6 +1,4 @@
-package com.mck.ecalculon.com.mck.ecalculon.evaluator;
-
-import android.util.Log;
+package com.mck.ecalculon.evaluator;
 
 import java.util.ArrayList;
 

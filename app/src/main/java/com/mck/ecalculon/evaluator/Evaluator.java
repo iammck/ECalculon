@@ -1,4 +1,4 @@
-package com.mck.ecalculon.com.mck.ecalculon.evaluator;
+package com.mck.ecalculon.evaluator;
 
 import android.util.Log;
 
@@ -10,12 +10,14 @@ import java.util.ArrayList;
 public class Evaluator {
     // currently finding and using the max dec amount from input.
     private int maxDecimalCount;
+    private int significantDigits;
 
     public String evaluate(String expression) throws EvaluationException {
         if (expression == null){
             throw new EvaluationException("Expression was null.");
         }
         maxDecimalCount = -1;
+        significantDigits = 0;
         ArrayList<Symbol> resultList = new ArrayList<Symbol>();
         ArrayList<Symbol> pendingList= new ArrayList<Symbol>();
         ArrayList<String> exprList = getExpressionAsArrayList(expression);
@@ -66,10 +68,20 @@ public class Evaluator {
 
         // Get the result as a string and update the decimal count
         String result = resultList.get(0).toString();
+        // if this number is large or small
+        if (result.contains("e") || result.contains("E")){
+            return result;
+        }
         Log.v("com.mck.dec", "Evaluator result is " + result);
         return toMaxDecimalCount(result);
     }
 
+    /**
+     * Returns the expression as an array list also updates the maxDecimalCount
+     * and significantDigits for this this expression.
+     * @param expression
+     * @return
+     */
     private ArrayList<String> getExpressionAsArrayList(String expression) {
         // the resulting array list of terms from the expression..
         ArrayList<String> result = new ArrayList<String>();
@@ -77,12 +89,13 @@ public class Evaluator {
         boolean isBuildingNumber = false;
         // When building numbers keep track of a decimal and decimal count.
         boolean hasDecimal = false;
+        boolean lastWasExp = false;
         int decCount = 0;
         // for each character in the expression
         for(int index = 0; index < expression.length(); index++){
             // get the current char from the index.
             char currentChar = expression.charAt(index);
-            if (isOperator(currentChar)){
+            if (isOperator(currentChar) && !lastWasExp){
                 // add operator and stop building number.
                 result.add(String.valueOf(currentChar));
                 isBuildingNumber = false;
@@ -90,7 +103,7 @@ public class Evaluator {
                 if( hasDecimal){
                     updateMaxDecimalCount(decCount);
                 }
-            } else { // must be a number,
+            } else { // must be a number part,
                 // This is a new number if false.
                 if (isBuildingNumber == false) {
                     // create the number in the result
@@ -101,14 +114,21 @@ public class Evaluator {
                     // now building a number
                     isBuildingNumber = true;
                 }
+                // the last is no longer an E or e.
+                lastWasExp = false;
                 // if this number has a decimal
                 if (hasDecimal) {
                     decCount++;
                 // else if this is the decimal, start decimal count
-                } else if (currentChar == '.'){
+                } else if (currentChar == '.') {
                     Log.v("com.mck.dec", "Found decimal");
                     decCount = 0;
                     hasDecimal = true;
+                }
+                // if this is the exp
+                if (currentChar == 'E' || currentChar == 'e'){
+                    Log.v("com.mck.exp", "Found exp");
+                    lastWasExp = true;
                 }
                 // Add this char to the last index in result.
                 int lastIndex = result.size() - 1;
@@ -138,6 +158,16 @@ public class Evaluator {
                 + " and maxDecimalCount " + maxDecimalCount + ".");
         // If no decimal originally or there is only a '.' then remove it
         if ( maxDecimalCount <= 0 && value.contains(".")){
+            // if the decimal numbers are not equal to 0 or 00, keep some decimal.
+            int index = value.indexOf('.');
+            // if the value doesn't contain .00, but does have 2 chars after index
+            if(!value.contains(".00") && index + 2 < value.length() ){
+                // some decimal placeses were created, ie 2/3 = 0.66
+                return value.substring(0, index + 3);
+            // else is there at least one char past decimal not a zero.
+            } else if (!value.contains(".0") && index + 1 < value.length()){
+                return value.substring(0, index + 2);
+            }
             // get a substring without the .0 and return it.
             return value.substring(0, value.indexOf('.'));
         // else, if there is no decimal.

@@ -2,7 +2,7 @@ package com.mck.ecalculon;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.mck.ecalculon.com.mck.ecalculon.evaluator.Evaluator;
+import com.mck.ecalculon.evaluator.Evaluator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -313,14 +313,52 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
     }
 
 
-    @Test // TODO
+    @Test
     public void testEqualsForEquations() {
-        fail("Not implememnted.");
+        onView(withId(R.id.buttonNumber6)).perform(click());
+        onView(withId(R.id.buttonAddition)).perform(click());
+        onView(withId(R.id.buttonNumber3)).perform(click());
+        onView(withId(R.id.buttonDecimal)).perform(click());
+        onView(withId(R.id.buttonNumber2)).perform(click());
+        onView(withId(R.id.buttonEquals)).perform(click());
+        String output = "9.2";
+        onView(withId(R.id.output)).check(matches(withText("9.2")));
+        // if we enter in an operator, then want to use the number.
+        onView(withId(R.id.buttonAddition)).perform(click());
+        onView(withId(R.id.buttonNumber3)).perform(click());
+        onView(withId(R.id.output)).check(matches(withText("9.2+3")));
+        onView(withId(R.id.buttonEquals)).perform(click());
+        onView(withId(R.id.output)).check(matches(withText("12.2")));
+        // if enter in a number, then remove number
+        onView(withId(R.id.buttonNumber3)).perform(click());
+        onView(withId(R.id.buttonAddition)).perform(click());
+        onView(withId(R.id.buttonNumber3)).perform(click());
+        onView(withId(R.id.output)).check(matches(withText("3+3")));
+        onView(withId(R.id.buttonEquals)).perform(click());
+        onView(withId(R.id.output)).check(matches(withText("6")));
+
     }
 
-    @Test // TODO
+    @Test
     public void testEqualsForErrors() {
-        fail("Not implememnted.");
+        onView(withId(R.id.buttonNumber6)).perform(click());
+        onView(withId(R.id.buttonAddition)).perform(click());
+        onView(withId(R.id.buttonNumber3)).perform(click());
+        onView(withId(R.id.buttonDecimal)).perform(click());
+        onView(withId(R.id.buttonNumber2)).perform(click());
+        onView(withId(R.id.buttonAddition)).perform(click());
+        onView(withId(R.id.buttonEquals)).perform(click());
+        String output = "ERROR";
+        onView(withId(R.id.output)).check(matches(withText(output)));
+
+        onView(withId(R.id.buttonNumber6)).perform(click());
+        onView(withId(R.id.buttonDivision)).perform(click());
+        onView(withId(R.id.buttonNumber0)).perform(click());
+        onView(withId(R.id.buttonEquals)).perform(click());
+        output = "ERROR";
+        onView(withId(R.id.output)).check(matches(withText(output)));
+
+
     }
 
 

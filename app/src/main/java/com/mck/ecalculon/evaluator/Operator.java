@@ -1,4 +1,4 @@
-package com.mck.ecalculon.com.mck.ecalculon.evaluator;
+package com.mck.ecalculon.evaluator;
 
 import android.util.Log;
 

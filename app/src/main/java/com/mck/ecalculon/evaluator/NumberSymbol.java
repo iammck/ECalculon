@@ -1,4 +1,6 @@
-package com.mck.ecalculon.com.mck.ecalculon.evaluator;
+package com.mck.ecalculon.evaluator;
+
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 public class NumberSymbol extends Symbol{
     public NumberSymbol(String token, ArrayList<Symbol> result, ArrayList<Symbol> pending) throws EvaluationException {
         super(token, SymbolType.number, result, pending);
-        // numbers can just evaluate themselves right away.
+        Log.v("com.mck.exp", "NumberSymbol instantiated with token " + token);
         evaluate();
 
     }
