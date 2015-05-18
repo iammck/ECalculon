@@ -14,8 +14,7 @@ triggered into building the project with a Webhook. The service uses the
 the build including when to trigger builds.
 
 The language key is an important part of the yml file. There is now support for
-android via the line  
-    language: android
+android via the line `language: android`
 This simplified development, taking care of installing the Android
 SDK and all the necessary components to assemble and build the android project
 using the gradle wrapper. There were some complications but were not hard to
@@ -27,9 +26,15 @@ needed to be started. Solutions can be found in the .travis.yml file.
 
 
 // Some usefull links
+
 https://developer.github.com/webhooks/
+
 http://docs.travis-ci.com/user/languages/android/
+
 http://rkistner.github.io/android/2013/02/05/android-builds-on-travis-ci/
+
 http://stackoverflow.com/questions/29622597/is-there-a-way-to-start-android-emulator-in-travis-ci-build
+
 https://github.com/travis-ci/travis-ci/issues/1395
+
 http://www.kevinrschultz.com/blog/2014/05/31/how-to-use-travisci-for-android-testing/
