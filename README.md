@@ -14,7 +14,7 @@ triggered into building the project with a Webhook. The service uses the
 the build including when to trigger builds.
 
 The language key is an important part of the yml file. There is now support for
-android via the line
+android via the line  
     language: android
 This simplified development, taking care of installing the Android
 SDK and all the necessary components to assemble and build the android project
