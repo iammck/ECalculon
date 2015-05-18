@@ -4,14 +4,18 @@ android:
     - build-tools-21.1.2    # The BuildTools version used by project
     - android-22            # The SDK version used to compile your project
     - extra-android-support
-    
+
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-19
 
 
 before_install:
+  # Need to be able to execute the android gradle wrapper.
   - chmod +x gradlew
+  # Could not find com.android.support:appcompat-v7:22.0.0, attempt to update before install.
+  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
 
 
 # Emulator Management: Create, Start and Wait
