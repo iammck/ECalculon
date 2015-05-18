@@ -12,7 +12,6 @@ public class NumberSymbol extends Symbol{
         super(token, SymbolType.number, result, pending);
         Log.v("com.mck.exp", "NumberSymbol instantiated with token " + token);
         evaluate();
-
     }
 
     @Override
