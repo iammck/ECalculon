@@ -38,3 +38,13 @@ http://stackoverflow.com/questions/29622597/is-there-a-way-to-start-android-emul
 https://github.com/travis-ci/travis-ci/issues/1395
 
 http://www.kevinrschultz.com/blog/2014/05/31/how-to-use-travisci-for-android-testing/
+
+http://gmariotti.blogspot.com/2014/04/integrating-android-github-repo-with.html
+
+https://github.com/mg6maciej/VielenGamesAndroidClient
+
+http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-keystores-to-sign-release-version-of-an-android
+
+
+
+

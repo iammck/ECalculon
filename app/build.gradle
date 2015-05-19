@@ -16,6 +16,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // if building with the ci service
+            if (System.getenv("IS_TRAVIS_BUILD") != null){
+                // these encrypted environment variables are specific to the ci build
+                // they are built from the command line using the travis cls tool
+                // and are decrypted in the .travis.yml file.
+                storeFile file("keystore/ecalculon.keystore")
+                storePassword System.getenv("KSPWD")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PWD")
+            }
         }
     }
     packagingOptions {
