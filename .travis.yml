@@ -14,7 +14,7 @@ android:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_41d3c9eb4ad1_key -iv $encrypted_41d3c9eb4ad1_iv
-  -in ecalculon.keystore.enc -out ecalculon.keystore -d
+  -in app/keystore/ecalculon.keystore.enc -out app/keystore/ecalculon.keystore -d
 - chmod +x gradlew
 - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
 - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force
