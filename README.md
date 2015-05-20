@@ -23,6 +23,10 @@ Second, Travis had not been updated with the latest support libraries and needed
 to be updated. Because the application uses espresso during tests, an emulator
 needed to be started. Solutions can be found in the .travis.yml file.
 
+To provide the certs for signing the release apk the necessary information
+is stored using encrypted environment variables and the necessary file is
+stored using an encrypted file.
+
 
 
 // Some usefull links

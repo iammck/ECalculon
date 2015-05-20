@@ -1,9 +1,6 @@
 language: android
 env:
   global:
-  - secure: LD32HlRwI4zbIE2QaX3jDcAKTJ/8RQcjtzS1roYPi4OJQPj8GFZ0PkJ1K3BjfxzAe9w6ABNitXbx1PBtQhEuB2cKBYKGWqLOVUrauLNqS7J/JGgQxmSdDroHXsjB7s4OjfV6f4kL7LvaJV/DpwwaFoXM0GMm956F5xqz9/ntpBek0FYFekz0OZnYvWHfOuFIx4/g6oSvf5Zijd64K4ehYRH6ptzpS5JJVAzF6v8zVtTFn8W7GGYs4KzytSGPE4jKekHIoWWE4Cpmz0HiyYY+FU6tSPa8j4Mhza39ASkEVMfWvU+SnUaejJv+taObzFUEjhE3NZSwx/BpPENl81/Uso77gTxkHdYDuvJUP9QZBj3C4ZprJwE8SfMIktl3V7tgBqlmAhN6CmkgSY7w58rTklwOO4+n88AnqcEjQTGuyMvq0J1XuyapOuK3RmumIp9qCG0MpidA6aVWg4v+7Wf1Mth4X+7a73K2hOe7sJuNy5hOwbmb144RO8sXNw9d54lMxPpe6B4o3FFn4vhZQr4VektlW8m3zvt7B6NHGhtblOpCxH2ZnzXqgOpEADoN7hEH1MCXoG+SJxe+S+X0pEk5HTDYDWn45gOPxO5XVBzHkrASpaRkILKQwuZUimmhAsAbhfbf1yaa5gpdG5Woes/Dn3XzTZlqd3UXyYFWAMW4Ghk=
-  - secure: WyjjRk81bzJ8Q3/hZ3RJHF1ROJp8BLqGWhGRvMK7o+fFwRb6c6lgiXSyPliTQVH88A5D0TdHQDCiAlakY3K8GvxF/Bgo/4JqTED0H2fkGQpbjRUExxxoqbJcJlZoO3/BtKwXwJvrNpbpNvLoOm5ZMzWakzWUMtvZD3yBx/vnu/RoJanHn3ozzi27silAP6JSV9/9HQHTkJy7X/6m6/p0Uk5Ht3woVCYlocoeDPqpFbXVuAaaSWov7bln/THo2oWCPeR/+fcYLakqxZLu+4KRI1JWmEapwf27Z7/FrcfKFaUs8lKhix3b+LqbdA7kwTF4mbyE1QYijl6Kok8z1jdKnDQ9ItiXQrw3BsnwRsrYTGbUdGCAmBVHpTFQ+FyrSeyEygNY0J5KJ1MB4YHFWVSyJq7vRF5ew15bmvHT2E9Erw7cn1HvhYn5K9bj1poZNQwEBXrvhiBCubCRI3qVmXQYeaEI1r9kRkPvdgkL/ROadJw5S64I2dhda2uNcrBtZpJA/FTsaYTaUbx0D1Z3SzQBLNlnaFEs2JU8VrRYzf1MIDPRVBvyZF0n4c1sd/VIdar8cBpjGDUoyhYpq+ZdM7wKbOKH5Xwhrbr4tKUfXp/dGSsqsThEn+yf2b/Ycj71IQu++iK4ZRh3F3hZkqRm+GEBm0lwc39qTTY/8Ipbnw/U9qg=
-  - secure: lON6JDXliZNkjofwccqDDyRMDYNlxR/KWooemSsNpCkWO/KwRcJCjUcyJpoi0i7KfgKhXcBjRsQ7erSaMqSdtLLrIpAY7GokGZAs9Cf0r5GVQAIZs6pagL/+8x41OvHMnllLTExsmiZscJGhEGQVk/38ogAWTD8LP746Q7f7Iw2WXF0FlJQtlDh/xxlByyYo3uyV+37fWxtae0+ewWaYg/It3TAocyRj0ugNugaaLPO+nIK6IIHcHReWiHY5iY0LGfqXYOQktiNIf0QSzoYkeYgzfD0SfYTq14AwpyrA8GDoxTfMHRNmfwAZmkhw3ClVwmZi/uzND7Ooe4qt3b/Aeg4RFYVjz9L/MjY2fzwWreHsBgv0By8CBu8ML6+YU6MjTbnihBRwvFtxzpmrMqoMZFicABv1trfwKnAjDhSaVYarYPI6/tE/Lbtbw9PcBnoOVW93PeiNia6nB+gcV+gBGorfkU4U/84fzrTeLV2zRoGqC2oi3maFru5IKR45UeNOizc37Mgilcc2jUJ3bC9l10/M9QThaZ7y/p/i33DrFdge+/xYnj3lelOXmFN+fJUjhtmLYdxsfLNkpOujJCPfdqOG6xk+ppI/1YjLi7AijtMYVLjvX3Z+LVgDe+2kFnznpFqxC0bZCaJqnimDJf4+KDQWlFfvjC/0HLpW8VBziIQ=
 android:
   components:
   - build-tools-21.1.2
@@ -11,8 +8,6 @@ android:
   - extra-android-support
   - sys-img-armeabi-v7a-android-19
 before_install:
-- openssl aes-256-cbc -K $encrypted_81def3136ab2_key -iv $encrypted_81def3136ab2_iv
-  -in ecalculon.keystore.enc -out ecalculon.keystore -d
 - chmod +x gradlew
 - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
 - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force
