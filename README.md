@@ -4,8 +4,9 @@ https://travis-ci.org/iammck/ECalculon
 
 The ECalculon project is for experimenting and learning continuous integration
 concepts and techniques for Android software development. My goal with this
-project is to use a combination of github, Travis-CI and Triple-T to deliver
-application updates to the end user via google play.
+project is to use a combination of github, Travis-CI and
+Triple-T/google-play-publisher to deliver application updates to the end
+user via google play.
 
 The application is a simple calculator named after Calculon, a robot. It uses
 the support library and is a fragment activity. There are several integration
@@ -36,7 +37,7 @@ then pushed the .enc file. I also needed to declare the environment variable and
 add lines to decrypt the file before install in `.travis.yml`. To do all this
 I needed to install travis cli and openssl. There are links below for help with
 installing openssl and travis client on windows. See the .travis.yml file and
-Travis-ci online documentation for more info about actually encypting the data
+Travis-ci online documentation for more info about actually encrypting the data
 and environment variables.
 
 Once I had the info i needed uploaded, I added a conditional statement to the
@@ -45,7 +46,9 @@ gather the info for signing the release APK using the environement variables.
 Otherwise try to use the console.
 
 
-// Some usefull links
+// Some useful links
+
+https://github.com/Triple-T/gradle-play-publisher
 
 https://github.com/travis-ci/travis.rb
 
