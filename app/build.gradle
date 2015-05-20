@@ -12,19 +12,40 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        travis {
+            // if building with the ci service, this env var exists.
+            if (System.getenv("KEY_ALIAS") != null){
+                // specific to the ci build
+                storeFile file("keystore/ecalculon.keystore")
+                storePassword System.getenv("KSPWD")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PWD")
+            }
+        }
+
+        console {
+            if (System.console() != null){
+                storeFile file("keystore/ecalculon.keystore")
+                storePassword new String(System.console()
+                        .readPassword("\n\$ Enter keystore password: "))
+                keyAlias new String(System.console()
+                        .readLine("\n\$ Enter key alias: "))
+                keyPassword new String(System.console()
+                        .readPassword("\n\$ Enter key password: "))
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // if building with the ci service
             if (System.getenv("KEY_ALIAS") != null){
-                // these encrypted environment variables are specific to the ci build
-                // they are built from the command line using the travis cls tool
-                // and are decrypted in the .travis.yml file.
-                storeFile file("keystore/ecalculon.keystore")
-                storePassword System.getenv("KSPWD")
-                keyAlias System.getenv("KEY_ALIAS")
-                keyPassword System.getenv("KEY_PWD")
+                signingConfig signingConfigs.travis
+            } else if ( System.console() != null){
+                signingConfig signingConfigs.console
             }
         }
     }
