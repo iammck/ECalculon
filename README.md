@@ -34,9 +34,11 @@ I needed to install travis cli and openssl. There are links below for help with
 installing openssl and travis client on windows. See the .travis.yml file and
 Travis-ci online documentation for more info about actually encypting the data
 and environment variables.
+
 Once I had the info i needed uploaded, I added a conditional statement to the
 app's gradle file. If we are able to get a travis-ci environment variable, then
-gather the info for signing the release APK.
+gather the info for signing the release APK using the environement variables.
+
 
 
 // Some usefull links

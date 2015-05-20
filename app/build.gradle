@@ -27,6 +27,7 @@ android {
 
         console {
             if (System.console() != null){
+                System.out.println("Running with a console!!!!!!!")
                 storeFile file("keystore/ecalculon.keystore")
                 storePassword new String(System.console()
                         .readPassword("\n\$ Enter keystore password: "))
@@ -43,8 +44,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // if building with the ci service
             if (System.getenv("KEY_ALIAS") != null){
+                //
+                System.out.println("found alias!!!!!!!")
                 signingConfig signingConfigs.travis
             } else if ( System.console() != null){
+                System.out.println("found found!!!!!!!")
                 signingConfig signingConfigs.console
             }
         }
