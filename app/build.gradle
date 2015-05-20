@@ -22,11 +22,14 @@ android {
                 storePassword System.getenv("KSPWD")
                 keyAlias System.getenv("KEY_ALIAS")
                 keyPassword System.getenv("KEY_PWD")
+            } else {
+                System.out.println("KEY_ALIAS is null!!!!!!!")
             }
         }
 
         console {
-            if (System.console() != null){
+            // we can find a console, is it also not the travis console?
+            if (System.console() != null && System.getenv("KEY_ALIAS") == null){
                 System.out.println("Running with a console!!!!!!!")
                 storeFile file("keystore/ecalculon.keystore")
                 storePassword new String(System.console()
