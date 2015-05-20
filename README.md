@@ -1,3 +1,7 @@
+See the latest builds at
+https://travis-ci.org/iammck/ECalculon
+
+
 The ECalculon project is for experimenting and learning continuous integration
 concepts and techniques for Android software development. My goal with this
 project is to use a combination of github, Travis-CI and Triple-T to deliver
