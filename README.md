@@ -25,11 +25,25 @@ needed to be started. Solutions can be found in the .travis.yml file.
 
 To provide the certs for signing the release apk the necessary information
 is stored using encrypted environment variables and the necessary file is
-stored using an encrypted file.
-
+stored using an encrypted file. Perhaps because I am using a windows machine,
+I was unable to use the `travis encrypt-file' command. I was able to locally
+encrypt the file and encrypt the password as an environment variable on travis,
+then pushed the .enc file. I also needed to declare the environment variable and
+add lines to decrypt the file before install in `.travis.yml`. To do all this
+I needed to install travis cli and openssl. There are links below for help with
+installing openssl and travis client on windows. See the .travis.yml file and
+Travis-ci online documentation for more info about actually encypting the data
+and environment variables.
+Once I had the info i needed uploaded, I added a conditional statement to the
+app's gradle file. If we are able to get a travis-ci environment variable, then
+gather the info for signing the release APK.
 
 
 // Some usefull links
+
+https://github.com/travis-ci/travis.rb
+
+http://slproweb.com/products/Win32OpenSSL.html
 
 https://developer.github.com/webhooks/
 

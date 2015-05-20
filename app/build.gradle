@@ -17,7 +17,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // if building with the ci service
-            if (System.getenv("IS_TRAVIS_BUILD") != null){
+            if (System.getenv("KEY_ALIAS") != null){
                 // these encrypted environment variables are specific to the ci build
                 // they are built from the command line using the travis cls tool
                 // and are decrypted in the .travis.yml file.
