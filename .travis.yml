@@ -1,6 +1,8 @@
 language: android
 env:
   global:
+    # dkspwd
+    secure: IMEU4IU3TWTpl+jfNdA4gS2lj6Qje6E9FS7prDavtvoDNa2Z8msBnYIlKrf5jLaIJC5AGnzT6qsXqjNCRO0bvsdDyZ5uvm3VH8WiKInCdFiQVWn7lCsehZ6heMYvuxzCyxb1qsjo+Fb+Vziih2PhK1MjDlhdNsld1tVUO4V2vSy7RBTigD4l7MaHGKf3D8/bRdteduWQokEoJMOi7Z204CC5gmHs5AV7wVI6Qo3lkCzWeLo+vVQ7v6d1AcQFXH1kPhNfrCFrpfYIdhkMD3fbQLFE8asqGQ7oDUNmzkL0OYIiLmAqLk1JqBpYqNnfcR4y7kkyWltOBKy8CPvt5ozyeQhWPngURNUy5XtuioK6qg0PCRu/AABT/MMtuDtBDK5JhCSGTulqLogU3LcvbU+i5250KB3Y5TPcdVhZGbJLn6+qSTMP4/ID8VwgUl/buvte1SsT76BnWHIZvF0h9rkSJ2LGc0wKkbhUZFZOjvMCgmc+Pg8eA6qOBdI+h6Zv9HMD6EHH8I7SJelrYz6xUAlJJOOAiBtCeBEt8BNy1oDKToBCkyMhK7e319O94nxGs5fRHvaaQI09s4waWdZ5W5D0clIwa8hSngAhYwlEBASJDTgpd7ZLlO0yxehbCd9MF2oGnKGrlNUDpMYpCLLAbG3M4OGK9xG6kT4NTQqpQqjAH9I=
 android:
   components:
   - build-tools-21.1.2
@@ -8,6 +10,7 @@ android:
   - extra-android-support
   - sys-img-armeabi-v7a-android-19
 before_install:
+- openssl aes-256-cbc -k "$dkspwd" -in app\keystore\ecalculon.keystore.enc -out app\keystore\ecalculon.keystore -d
 - chmod +x gradlew
 - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
 - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force
