@@ -26,7 +26,7 @@ needed to be started. Solutions can be found in the .travis.yml file.
 To provide the certs for signing the release apk the necessary information
 is stored using encrypted environment variables and the necessary file is
 stored using an encrypted file. Perhaps because I am using a windows machine,
-I was unable to use the `travis encrypt-file' command. I was able to locally
+I was unable to use the `travis encrypt-file` command. I was able to locally
 encrypt the file and encrypt the password as an environment variable on travis,
 then pushed the .enc file. I also needed to declare the environment variable and
 add lines to decrypt the file before install in `.travis.yml`. To do all this
@@ -38,7 +38,7 @@ and environment variables.
 Once I had the info i needed uploaded, I added a conditional statement to the
 app's gradle file. If we are able to get a travis-ci environment variable, then
 gather the info for signing the release APK using the environement variables.
-
+Otherwise try to use the console.
 
 
 // Some usefull links

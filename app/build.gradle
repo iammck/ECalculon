@@ -22,15 +22,12 @@ android {
                 storePassword System.getenv("KSPWD")
                 keyAlias System.getenv("KEY_ALIAS")
                 keyPassword System.getenv("KEY_PWD")
-            } else {
-                System.out.println("KEY_ALIAS is null!!!!!!!")
             }
         }
 
         console {
             // we can find a console, is it also not the travis console?
             if (System.console() != null && System.getenv("KEY_ALIAS") == null){
-                System.out.println("Running with a console!!!!!!!")
                 storeFile file("keystore/ecalculon.keystore")
                 storePassword new String(System.console()
                         .readPassword("\n\$ Enter keystore password: "))
@@ -47,11 +44,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // if building with the ci service
             if (System.getenv("KEY_ALIAS") != null){
-                //
-                System.out.println("found alias!!!!!!!")
                 signingConfig signingConfigs.travis
             } else if ( System.console() != null){
-                System.out.println("found found!!!!!!!")
                 signingConfig signingConfigs.console
             }
         }
