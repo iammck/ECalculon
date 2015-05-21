@@ -51,8 +51,8 @@ variable, then gather the info for signing the release APK using the environemen
 variables. Otherwise, for local builds try to use the console.
 
 After successfully building the signed release apk, it was upload to Google Play
-using Google Play developer console. From the console I was able to set up the
-initial store listing as well as create the service account Triple-T will use
+store using Google Play developer console. From the console I was able to set up
+the initial store listing as well as create the service account Triple-T will use
 to update the Android Developer account.
 
 // Some useful links
@@ -81,6 +81,7 @@ https://github.com/mg6maciej/VielenGamesAndroidClient
 
 http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-keystores-to-sign-release-version-of-an-android
 
+https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:external_dependencies
 
 
 
