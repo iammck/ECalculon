@@ -63,3 +63,8 @@ dependencies {
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
+
+play {
+    serviceAccountEmail = System.getenv("SAEMAIL")
+    pk12File = file("keystore/p12.json")
+}
