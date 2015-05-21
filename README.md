@@ -1,12 +1,17 @@
+Get the latest release at
+
+https://play.google.com/store/apps/details?id=com.mck.ecalculon
+
 See the latest builds at
+
 https://travis-ci.org/iammck/ECalculon
 
 
 The ECalculon project is for experimenting and learning continuous integration
 concepts and techniques for Android software development. My goal with this
 project is to use a combination of github, Travis-CI and
-Triple-T/google-play-publisher to deliver application updates to the end
-user via google play.
+Triple-T/google-play-publisher (Triple-T) to deliver application updates to
+the end user via google play.
 
 The application is a simple calculator named after Calculon, a robot. It uses
 the support library and is a fragment activity. There are several integration
@@ -40,11 +45,15 @@ installing openssl and travis client on windows. See the .travis.yml file and
 Travis-ci online documentation for more info about actually encrypting the data
 and environment variables.
 
-Once I had the info i needed uploaded, I added a conditional statement to the
-app's gradle file. If we are able to get a travis-ci environment variable, then
-gather the info for signing the release APK using the environement variables.
-Otherwise try to use the console.
+Once I had the info i needed uploaded to the service, I added a conditional
+statement to the app's gradle file. If we are able to get a travis-ci environment
+variable, then gather the info for signing the release APK using the environement
+variables. Otherwise, for local builds try to use the console.
 
+After successfully building the signed release apk, it was upload to Google Play
+using Google Play developer console. From the console I was able to set up the
+initial store listing as well as create the service account Triple-T will use
+to update the Android Developer account.
 
 // Some useful links
 
