@@ -15,6 +15,7 @@ android:
   - sys-img-armeabi-v7a-android-19
 before_install:
 - openssl aes-256-cbc -k "$dkspwd" -in app/keystore/ecalculon.keystore.enc -out app/keystore/ecalculon.keystore
+  -d
 - openssl aes-256-cbc -k "$p12pwd" -in app/keystore/p12.json.enc -out app/keystore/p12.json
   -d
 - chmod +x gradlew
