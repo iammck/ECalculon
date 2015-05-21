@@ -16,7 +16,7 @@ android:
 before_install:
 - openssl aes-256-cbc -k "$dkspwd" -in app/keystore/ecalculon.keystore.enc -out app/keystore/ecalculon.keystore
   -d
-- openssl aes-256-cbc -k "$p12pwd" -in app/keystore/p12.json.enc -out app/keystore/p12.json
+- openssl aes-256-cbc -k "$p12pwd" -in app/keystore/ecalculonp12.p12.enc -out app/keystore/ecalculonp12.p12
   -d
 - chmod +x gradlew
 - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
