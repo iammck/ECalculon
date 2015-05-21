@@ -66,5 +66,5 @@ dependencies {
 
 play {
     serviceAccountEmail = System.getenv("SAEMAIL")
-    pk12File = file("keystore/p12.json")
+    //pk12File = file("keystore/p12.json")
 }
