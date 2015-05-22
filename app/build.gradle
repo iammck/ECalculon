@@ -65,6 +65,7 @@ dependencies {
 }
 
 play {
+    track = 'production'
     serviceAccountEmail = System.getenv("SAEMAIL")
     pk12File = file("keystore/ecalculonp12.p12")
 }
