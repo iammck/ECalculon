@@ -9,7 +9,7 @@ android {
         applicationId "com.mck.ecalculon"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 2
+        versionCode 3
         versionName "basic"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -65,7 +65,7 @@ dependencies {
 }
 
 play {
-    track = 'production'
+    track = 'alpha' // production, beta
     serviceAccountEmail = System.getenv("SAEMAIL")
     pk12File = file("keystore/ecalculonp12.p12")
 }
