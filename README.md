@@ -47,13 +47,30 @@ and environment variables.
 
 Once I had the info i needed uploaded to the service, I added a conditional
 statement to the app's gradle file. If we are able to get a travis-ci environment
-variable, then gather the info for signing the release APK using the environement
+variable, then gather the info for signing the release APK using the environment
 variables. Otherwise, for local builds try to use the console.
 
 After successfully building the signed release apk, it was upload to Google Play
 store using Google Play developer console. From the console I was able to set up
 the initial store listing as well as create the service account Triple-T will use
 to update the Android Developer account.
+
+Triple-T needed to be added to the classpath and the plug-in needed to be added to
+the gradle build. I used the project and app build files respectively. Triple T
+needs access to the google play account to do updates, etc. An account was created
+from the Google Play Developer Console and the required certifications, email and
+p12 file, were added to Travis-ci in the same way as were the signing certs. They
+were added to the play element of the app/build.gradle file. I also needed to have
+src/main/play/release and src/main/play/release/listing folders. I added them by including
+the src/main/play/release/whatsnew and src/main/play/release/listing/shortdescription
+files. These two files will be used to update the published apk's store listing.
+
+Having successfully added TripleT to the project, The ci server was updated to run
+the publishRelease task after a successful build. publishRelease is only successful
+if the version is updated. Thus, I am going to use the version to control publishing.
+If the version isn't updated, the task fails. Since the publish task takes place after the
+ci build server reports a successful build the success of the ci server build does not
+depend on the success of publishRelease.
 
 // Some useful links
 
