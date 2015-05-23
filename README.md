@@ -70,7 +70,11 @@ the publishRelease task after a successful build. publishRelease is only success
 if the version is updated. Thus, I am going to use the version to control publishing.
 If the version isn't updated, the task fails. Since the publish task takes place after the
 ci build server reports a successful build the success of the ci server build does not
-depend on the success of publishRelease.
+depend on the success of publishRelease. notice travis build 42.
+
+I want to schedule the publishRelease task in the ci build script and have it run only
+when the apk version has been updated. because publishRelease is only run when version
+changes, a failed result will accurately show ci build fails.
 
 // Some useful links
 
