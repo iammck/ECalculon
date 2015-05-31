@@ -24,9 +24,6 @@ before_install:
   > /dev/null
 script:
  - ./gradlew build connectedCheck publish
-#after_success:
-#- TERM=dumb ./gradlew tasks
-#- TERM=dumb ./gradlew publishRelease
 before_script:
 - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
 - emulator -avd test -no-skin -no-audio -no-window &

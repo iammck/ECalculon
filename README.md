@@ -10,10 +10,10 @@ https://travis-ci.org/iammck/ECalculon
 The ECalculon project is for experimenting and learning continuous integration
 concepts and techniques for Android software development. My goal with this
 project is to use a combination of github, Travis-CI and
-Triple-T/google-play-publisher (Triple-T) to deliver application updates to
+Google's AndroidPublisher Api to deliver application updates to
 the end user via google play.
 
-The application is a simple calculator named after Calculon, a robot. It uses
+The application is a simple calculator named after Calculon, a famous robot. It uses
 the support library and is a fragment activity. There are several integration
 tests using junit. Those that test the UI also use espresso 2.
 
@@ -52,29 +52,13 @@ variables. Otherwise, for local builds try to use the console.
 
 After successfully building the signed release apk, it was upload to Google Play
 store using Google Play developer console. From the console I was able to set up
-the initial store listing as well as create the service account Triple-T will use
-to update the Android Developer account.
+the initial store listing as well as create the service account that is used to
+update the Android Developer account.
 
-Triple-T needed to be added to the classpath and the plug-in needed to be added to
-the gradle build. I used the project and app build files respectively. Triple T
-needs access to the google play account to do updates, etc. An account was created
-from the Google Play Developer Console and the required certifications, email and
-p12 file, were added to Travis-ci in the same way as were the signing certs. They
-were added to the play element of the app/build.gradle file. I also needed to have
-src/main/play/release and src/main/play/release/listing folders. I added them by including
-the src/main/play/release/whatsnew and src/main/play/release/listing/shortdescription
-files. These two files will be used to update the published apk's store listing.
+To publish, one needs to access the service account using the service account email
+and a pk12 file. These items were added to Travis-ci in the same way as were the signing
+certs.
 
-Having successfully added TripleT to the project, The ci server was updated to run
-the publishRelease task after a successful build. publishRelease is only successful
-if the version is updated. Thus, I am going to use the version to control publishing.
-If the version isn't updated, the task fails. Since the publish task takes place after the
-ci build server reports a successful build the success of the ci server build does not
-depend on the success of publishRelease. notice travis build 42.
-
-I want to schedule the publishRelease task in the ci build script and have it run only
-when the apk version has been updated. because publishRelease is only run when version
-changes, a failed result will accurately show ci build fails.
 
 // Some useful links
 
