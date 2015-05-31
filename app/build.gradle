@@ -9,7 +9,7 @@ android {
         applicationId "com.mck.ecalculon"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 5
+        versionCode 9
         versionName "basic"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -69,3 +69,10 @@ play {
     serviceAccountEmail = System.getenv("SAEMAIL")
     pk12File = file("keystore/ecalculonp12.p12")
 }
+
+task publish(type: com.mck.ecalculon.PublishAlphaTask){
+    email play.serviceAccountEmail
+    pk12 play.pk12File
+}
+
+publish.dependsOn assembleRelease

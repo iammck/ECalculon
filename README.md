@@ -104,5 +104,17 @@ http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-key
 
 https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:external_dependencies
 
+https://developers.google.com/resources/api-libraries/documentation/androidpublisher/v2/java/latest/index.html?com/google/api/services/androidpublisher/model/ApksListResponse.html
+
+https://developers.google.com/android-publisher/
+
+https://github.com/googlesamples/android-play-publisher-api/blob/master/v2/java/src/com/google/play/developerapi/samples/ListApks.java
+
+http://commondatastorage.googleapis.com/androiddevelopers/shareables/sdk-tools/android-gradle-plugin-dsl.zip
+
+https://github.com/ysoftdevs/gradle-training/tree/master/22-custom-task-in-buildSrc
+
+https://android.googlesource.com/platform/tools/base/+/d8d045469b91b3a1d4796cfb083cbb106ef67a13/build-system/gradle/src/main/groovy/com/android/build/gradle/api
+
 
 
