@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 22
@@ -64,15 +63,9 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
 
-play {
-    track = 'alpha' // production, beta
-    serviceAccountEmail = System.getenv("SAEMAIL")
-    pk12File = file("keystore/ecalculonp12.p12")
-}
-
 task publish(type: com.mck.ecalculon.PublishAlphaTask){
-    email play.serviceAccountEmail
-    pk12 play.pk12File
+    email System.getenv("SAEMAIL")
+    pk12  file("keystore/ecalculonp12.p12")
 }
 
 publish.dependsOn assembleRelease

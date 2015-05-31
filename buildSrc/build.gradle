@@ -14,6 +14,5 @@ dependencies {
         exclude group: 'com.google.guava', module: 'guava-jdk5'
     }
 
-    compile 'com.github.triplet.gradle:play-publisher:1.1.0'
 }
 
