@@ -23,9 +23,7 @@ before_install:
 - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force
   > /dev/null
 script:
- - TERM=dumb ./gradlew build
- - TERM=dumb ./gradlew connectedCheck
- - TERM=dumb ./gradlew publish
+ - ./gradlew build connectedCheck publish
 #after_success:
 #- TERM=dumb ./gradlew tasks
 #- TERM=dumb ./gradlew publishRelease
