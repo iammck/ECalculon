@@ -63,9 +63,9 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
 
-task publish(type: com.mck.ecalculon.PublishAlphaTask){
+task publishAlpha(type: com.mck.ecalculon.PublishAlphaTask){
     email System.getenv("SAEMAIL")
     pk12  file("keystore/ecalculonp12.p12")
 }
 
-publish.dependsOn assembleRelease
+publishAlpha.dependsOn assembleRelease
