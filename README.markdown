@@ -3,9 +3,9 @@
 #About
 The ECalculon project is for experimenting and learning continuous integration concepts and techniques for Android software development. My goal with this project is to use a combination of Travis-CI and Google's AndroidPublisher Api to deliver application updates to testers and users via google play.
 
-My secondary learning goals include
+My secondary learning goals include gaining skills and knowledge about Gradle and its DSL, Android Gradle plugin and its DSL, Groovy programming language, YAML, markdown, Android application programming, esspresso.
 
-The application is a simple calculator named after Calculon, a famous robot. It uses the support library and is a fragment activity. There are several integration tests using junit. Those that test the UI also use espresso 2.
+The application is a simple calculator named after Calculon the famous robot actor from *All My Circuts*. The application uses the support library and is a fragment activity. There are several integration tests using junit. Those that test the UI also use espresso 2.
 
 #Travis-ci
 This project uses Travis-Ci as the continuous integration service. Travis-CI has integrated support for github. When pushes are made to the repo, the service is triggered into building the project with a Webhook. The service uses the .travis.yml file found under the root directory. This file is used to customize the build including when to trigger builds.
@@ -66,33 +66,35 @@ In order to catch the case where the version is not updated, meaning the release
 
 
 
-#Some useful links
+##Some useful links
 
-https://github.com/Triple-T/gradle-play-publisher
+[Triple-T/gradle-play-publisher](https://github.com/Triple-T/gradle-play-publisher)
 
-https://github.com/travis-ci/travis.rb
+[Travis CI Client (CLI and Ruby library)](https://github.com/travis-ci/travis.rb)
 
-http://slproweb.com/products/Win32OpenSSL.html
+[Win32 OpenSSL](http://slproweb.com/products/Win32OpenSSL.html)
 
-https://developer.github.com/webhooks/
+[GitHub Developer, Webhooks](https://developer.github.com/webhooks/)
 
-http://docs.travis-ci.com/user/languages/android/
+[Travis-CI Android Project Guide](http://docs.travis-ci.com/user/languages/android/)
 
-http://rkistner.github.io/android/2013/02/05/android-builds-on-travis-ci/
+[Ralf Kistner's Android builds on Travis CI built with Maven](http://rkistner.github.io/android/2013/02/05/android-builds-on-travis-ci/)
 
-http://stackoverflow.com/questions/29622597/is-there-a-way-to-start-android-emulator-in-travis-ci-build
+[Starting an emulator](http://stackoverflow.com/questions/29622597/is-there-a-way-to-start-android-emulator-in-travis-ci-build)
 
-https://github.com/travis-ci/travis-ci/issues/1395
+[Android as first class citizen](https://github.com/travis-ci/travis-ci/issues/1395)
 
-http://www.kevinrschultz.com/blog/2014/05/31/how-to-use-travisci-for-android-testing/
+[How to Use TravisCI for Android Testing](http://www.kevinrschultz.com/blog/2014/05/31/how-to-use-travisci-for-android-testing/)
 
-http://gmariotti.blogspot.com/2014/04/integrating-android-github-repo-with.html
+[Integrating an Android Github repo with Travis Ci](http://gmariotti.blogspot.com/2014/04/integrating-android-github-repo-with.html)
 
-https://github.com/mg6maciej/VielenGamesAndroidClient
+[Vielen Games Android Client repo](https://github.com/mg6maciej/VielenGamesAndroidClient))
 
-http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-keystores-to-sign-release-version-of-an-android
+[What is the best practice to use keystores to sign release version of an Android app on Travis CI?](http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-keystores-to-sign-release-version-of-an-android)
 
-https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:external_dependencies
+[Build sources in the buildSrc project](https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:build_sources)
+
+[Chapter 57. Writing Custom Task Classes](https://docs.gradle.org/current/userguide/custom_tasks.html)
 
 [Google Play Developer API v2 (revision 19)](https://developers.google.com/resources/api-libraries/documentation/androidpublisher/v2/java/latest/)
 
@@ -104,11 +106,11 @@ https://docs.gradle.org/current/userguide/organizing_build_logic.html#sec:extern
 
 [Gradle Plugin User Guide](http://tools.android.com/tech-docs/new-build-system/user-guide)
 
-https://github.com/ysoftdevs/gradle-training/tree/master/22-custom-task-in-buildSrc
+[22-custom-task-in-buildSrc](https://github.com/ysoftdevs/gradle-training/tree/master/22-custom-task-in-buildSrc)
 
 [Android build System source](https://android.googlesource.com/platform/tools/base/+/d8d045469b91b3a1d4796cfb083cbb106ef67a13/build-system/gradle/src/main/groovy/com/android/build/gradle/api)
 
-https://youtrack.jetbrains.com/issue/IDEA-129535
+[buildSrc bug](https://youtrack.jetbrains.com/issue/IDEA-129535)
 
 
 
