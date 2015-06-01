@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/iammck/ECalculon.svg?branch=master)](https://travis-ci.org/iammck/ECalculon)
+
 [![Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.mck.ecalculon)
+
 #About
 The ECalculon project is for experimenting and learning continuous integration concepts and techniques for Android software development. My goal with this project is to use a combination of [Travis-CI] with [Google Play Developer Publishing API] and the [AndroidPublisher Library] to deliver application updates to testers and users via google play after a successful build. Updates should only happen when the application version number has increased.
 
@@ -32,7 +34,7 @@ To provide the certs for signing the release apk produced by the ci service, the
 [Encryption Keys]:http://docs.travis-ci.com/user/encryption-keys/
 [Encrypting Files]:http://docs.travis-ci.com/user/encrypting-files/
 
-Once I had the necessary information uploaded to the service, I added a conditional statement to the app's [build.gradle] file. If we are able to get a travis-ci environment variable, then gather the info for signing the release APK using the environment variables. Otherwise, for local builds try to use the console to get the required data.
+Once I had the necessary information uploaded to the service, I added a conditional statement to the app's [build.gradle] file. If if gradle is able to get a travis-ci environment variable, then gather the info for signing the release APK using the environment variables. Otherwise, for local builds try to use the console to get the required data.
 
 [build.gradle]:https://github.com/iammck/ECalculon/blob/master/app/build.gradle
 
