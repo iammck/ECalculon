@@ -89,7 +89,10 @@ After the Edits.insert().execute() method is invoked from PublishAlphaTask.publi
 
 In order to catch the case where the version is not updated, meaning the release apk shouldn't be uploaded, the PublishAlphaTask.publishAlpha() method details are enclosed in a try/catch block. When the version is not updated, a GoogleJsonResponseException is raised. The exception is checked to see if it contains an 'apkUpgradeVersionConflict' reason and if so the exception is noted before the method returns.
 
+#Reflect
+I would be nice to have a solution that allows for the google-play-publisher plugin. If the project requirements grew to include uploading listing info or other release varaints, using a custom publishTask could mean lots more custom code, where as the code is already available via the pugin.
 
+Using the version code as the key for determining when to publish is limiting. As I was completing the objective for this project I realized that determining weather or not to publish either by a commit message or by a tag is a better solution. Using one of these methods and before the build script, I can have the ci server check the commit for info and if it is present add it to the environment variables. During the build, check the environment variables and add publish tasks as appropriate to the gradle call. This solution also allows one to use the google-play-publisher plugin.
 
 ##Some useful links
 ####Travis-CI
