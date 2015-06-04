@@ -87,9 +87,9 @@ task getCommitMessagePublishMap(type:Exec){
     doLast {
         String publishMap = standardOutput.toString()
         if ( publishMap.contains('[PUBLISH')){
-            def start = it.indexOf("[PUBLISH") + 8
-            def stop = it.indexOf("]", start)
-            publishMap = '[' + it.getAt(start..stop) + ']';
+            def start = publishMap.indexOf('[PUBLISH)') + 8
+            def stop = publishMap.indexOf("]", start)
+            publishMap = '[' + publishMap.getAt(start..stop) + ']';
         } else {
             publishMap = "[]"
         }
