@@ -86,17 +86,16 @@ task getCommitMessagePublishMap(type:Exec){
     standardOutput = new ByteArrayOutputStream()
     doLast {
         String publishMap = standardOutput.toString()
+        String result = "[]"
         if ( publishMap.contains('[PUBLISH')){
             def start = publishMap.indexOf('[PUBLISH)') + 8
             def stop = publishMap.indexOf("]", start)
-            publishMap = '[' + publishMap.getAt(start..stop) + ']';
-        } else {
-            publishMap = "[]"
+            result = '[' + publishMap.getAt(start..stop) + ']'
         }
-        System.out.println("getCommitMessagePublishMap lsaving publishMap " + publishMap)
+        System.out.println("getCommitMessagePublishMap saving result " + result)
         java.nio.file.Files.write(
             java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt'),
-            publishMap.getBytes())
+                result.getBytes())
     }
 }
 
