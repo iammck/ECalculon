@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 22
@@ -8,7 +9,7 @@ android {
         applicationId "com.mck.ecalculon"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 10
+        versionCode 12
         versionName "basic"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -63,7 +64,95 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
 
-def play = {
-    email System.getenv("SAEMAIL")
-    pk12  file("keystore/ecalculonp12.p12")
+/*play {
+    serviceAccountEmail = ''
+    pk12File = file("keystore/ecalculonp12.p12")
+}*/
+
+play {
+    serviceAccountEmail = System.getenv("SAEMAIL")
+    pk12File = file("keystore/ecalculonp12.p12")
 }
+
+
+////////////////
+// PUBLISHING///
+////////////////
+
+/*
+    A publish item in the commit msg must take the form of a string map
+    with the first item specifying the name of the variant and
+    the second is the track for each variant to be published.
+
+    The list should be wrapped with [PUBLISH to the left and a ]
+    to the right.
+
+    eg
+    [PUBLISH 'release' : 'alpha', 'flavorRelease' : 'beta']
+
+    // the starting one will be
+    [PUBLISH 'release' : 'alpha']
+
+    To publish, first run getCommitMessage, then publish
+    .\gradlew publishCheck publish
+
+    The publish task depends upon publishVariants task which
+    depends upon getCommitMessage task having already run.
+    publishVariants uses the msg to get variant names, then
+    it configures the publish task to also be dependent upon
+    the cooresponding publishVaraint from triple-t plugin.
+
+    To determine what is published, the msg is added to ext
+    variables using the getCommitMessage task, yet execution
+    of getCommitMessage must happen before configure phase
+    is over. I am going to determine if two tasks in the same
+    gradle command share project.ext instances by issuing
+    something like .\gradlew getCommitMessage publish
+
+    I might need to actually get and store the msg in file or
+    add it as an environment variable. If so I should parse
+    it down to just the important part.
+ */
+
+task getCommitMessagePublishMap(type:Exec){
+    commandLine 'git','log', '-1'
+    standardOutput = new ByteArrayOutputStream()
+    doLast {
+        String publishMap = standardOutput.toString()
+        if ( publishMap.contains('[RELEASE')){
+            def start = it.indexOf('[RELEASE' + 8)
+            def stop = it.indexOf(']', start)
+            publishMap = '[' + it.getAt(start..stop) + ']';
+        } else {
+            publishMap = "[]"
+        }
+        java.nio.file.Files.write(
+            java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt'),
+            publishMap.getBytes())
+    }
+}
+
+task publishVariants {
+    afterEvaluate {
+        java.nio.file.Path pathToPublishMap =
+                java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt')
+        if (java.nio.file.Files.exists(pathToPublishMap)) {
+            File publishMapFile = pathToPublishMap.toFile()
+            String pms = publishMapFile.getText()
+            // evaluate the publish Map, then for each variant and track pair,
+            evaluate(pms).each { key, value ->
+                // set up the varaint name.
+                String variant = key[0].toUpperCase() + key.toString().substring(1)
+                // this may need to happen after eval so that task exists.
+                def publishVariant = project.tasks.getByName("publish" + variant)
+                publish.dependsOn publishVariant // set publish depends on
+                //set the publish variant task play track to the track b4 execution.
+                publishVariant.doFirst { play.track = value }
+            }
+    }
+    }
+}
+
+task publish(dependsOn:publishVariants)
+// if any publishRealeasees are going to happen this task depends on them.
+

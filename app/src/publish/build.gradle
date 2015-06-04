@@ -1,0 +1,62 @@
+/*
+    A publish item in the commit msg must take the form of a string map
+    with the first item specifying the name of the variant and
+    the second is the track for each variant to be published.
+
+    The list should be wrapped with [PUBLISH to the left and a ]
+    to the right.
+
+    eg
+    [PUBLISH 'release' : 'alpha', 'flavorRelease' : 'beta']
+
+    // the starting one will be
+    [PUBLISH 'release' : 'alpha']
+
+    To publish, first run check, then publish
+    .\gradlew publishCheck publish
+
+    i might need to actually get and store the msg in file
+    in one task, then use it in publishTask.
+ */
+/*
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
+
+android{
+    compileSdkVersion 22
+    buildToolsVersion "21.1.2"
+}
+
+ext.commitMsg = "start with any commit message"
+
+task getCommitMessage(type:Exec){
+    commandLine 'git','log', '-1'
+    standardOutput = new ByteArrayOutputStream()
+    doLast { ext.commitMsg = standardOutput.toString() }
+}
+
+
+def parseMessageForPublishMap = {
+    System.out.println("parseMessageForPublishMap found commitMsg = "
+            + ext.commitMsg.toString());
+    def message = ''
+    if ( ext.commitMsg.contains('[RELEASE')){
+        def start = ext.commitMsg.indexOf('[RELEASE' + 8)
+        def stop = ext.commitMsg.indexOf(']', start)
+        message = ext.commitMsg.getAt(start..stop);
+    }
+    evaluate(message)
+}
+
+task publishCheck {
+    def setTrack = { play.track = it }
+    parseMessageForPublishMap().each {key, value ->
+        // get the publish variant task for the variant name
+        // publish depends on publish variant task
+        //set the publish variant task play track to the track
+    }
+}
+
+task publish(dependsOn:publishCheck)
+// if any publishRealeasees are going to happen this task depends on them.*/
