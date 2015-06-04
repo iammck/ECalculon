@@ -93,6 +93,7 @@ task getCommitMessagePublishMap(type:Exec){
         } else {
             publishMap = "[]"
         }
+        System.out.println("getCommitMessagePublishMap lsaving publishMap " + publishMap)
         java.nio.file.Files.write(
             java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt'),
             publishMap.getBytes())
