@@ -137,45 +137,49 @@ task getCommitMessagePublishMap(type:Exec){
     }
 }
 
-task publishVariants {
+project.afterEvaluate {
+    System.out.println("project.afterEvaluate.")
 
-    System.out.println("publishVariants in configuration.")
+    // get the path to the publish map
+    java.nio.file.Path pathToPublishMap =
+            java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt')
+    if (java.nio.file.Files.exists(pathToPublishMap)) {
+        // get the publish map string
+        File publishMapFile = pathToPublishMap.toFile()
+        String pms = publishMapFile.getText()
 
-    afterEvaluate {
+        System.out.println("publishVariants afterEvaluate string found pms " + pms)
 
-        System.out.println("publishVariants afterEvaluate.")
-
-        java.nio.file.Path pathToPublishMap =
-                java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt')
-        if (java.nio.file.Files.exists(pathToPublishMap)) {
-            File publishMapFile = pathToPublishMap.toFile()
-            String pms = publishMapFile.getText()
-
-            System.out.println("publishVariants afterEvaluate string found pms " + pms)
-
-            // evaluate the publish Map, then for each variant and track pair,
-            evaluate(pms).each { key, value ->
-                // set up the varaint name.
-                String variant = key[0].toUpperCase() + key.toString().substring(1)
-                // this may need to happen after eval so that task exists.
-                def publishVariant = project.tasks.getByName("publish" + variant)
-                publish.dependsOn publishVariant // set publish depends on
-                //set the publish variant task play track to the track b4 execution.
-                publishVariant.doFirst { play.track = value }
-            }
+        // evaluate the publish Map, then for each variant and track pair,
+        evaluate(pms).each { key, value ->
+            // set up the varaint name.
+            String variant = key[0].toUpperCase() + key.toString().substring(1)
+            // this may need to happen after eval so that task exists.
+            def publishVariant = project.tasks.getByName("publish" + variant)
+            publish.dependsOn publishVariant // set publish depends on
+            //set the publish variant task play track to the track b4 execution.
+            publishVariant.doFirst { play.track = value }
         }
-    }
-
-    doLast {
-        System.out.println("publishVariants doLast.")
     }
 }
 
 // if any publishRealeasees are going to happen this task depends on them.
-task publish(dependsOn:publishVariants){
+task publish {
     System.out.println("publish in config")
     doLast {
         System.out.println("publish in doLast")
     }
 }
 
+/*
+task publishVariants {
+    System.out.println("publishVariants in configuration.")
+
+
+}
+
+doLast {
+    System.out.println("publishVariants doLast.")
+}
+}
+*/
