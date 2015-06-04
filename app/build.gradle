@@ -138,7 +138,11 @@ task getCommitMessagePublishMap(type:Exec){
 }
 
 task publishVariants {
+
+    System.out.println("publishVariants in configuration.")
+
     afterEvaluate {
+
         System.out.println("publishVariants afterEvaluate.")
 
         java.nio.file.Path pathToPublishMap =
@@ -159,7 +163,11 @@ task publishVariants {
                 //set the publish variant task play track to the track b4 execution.
                 publishVariant.doFirst { play.track = value }
             }
+        }
     }
+
+    doLast {
+        System.out.println("publishVariants doLast.")
     }
 }
 
