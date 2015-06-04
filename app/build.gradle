@@ -88,11 +88,14 @@ task getCommitMessagePublishMap(type:Exec){
         String publishMap = standardOutput.toString()
         String result = "[]"
         if ( publishMap.contains('[PUBLISH')){
-            def start = publishMap.indexOf('[PUBLISH)') + 8
-            def stop = publishMap.indexOf("]", start)
+            Integer start = publishMap.indexOf('[PUBLISH)') + 8
+            Integer stop = publishMap.indexOf("]", start)
             result = '[' + publishMap.getAt(start..stop) + ']'
+
+            System.out.println("getCommitMessagePublishMap found publishMap at " +
+                    "start, stop values " + start + " " + stop)
+            System.out.println("getCommitMessagePublishMap saving result " + result)
         }
-        System.out.println("getCommitMessagePublishMap saving result " + result)
         java.nio.file.Files.write(
             java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt'),
                 result.getBytes())
