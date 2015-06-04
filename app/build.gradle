@@ -79,54 +79,16 @@ play {
 // PUBLISHING///
 ////////////////
 
-/*
-    A publish item in the commit msg must take the form of a string map
-    with the first item specifying the name of the variant and
-    the second is the track for each variant to be published.
-
-    The list should be wrapped with [PUBLISH to the left and a ]
-    to the right.
-
-    eg
-    [PUBLISH 'release' : 'alpha', 'flavorRelease' : 'beta']
-
-    // the starting one will be
-    [PUBLISH 'release' : 'alpha']
-
-    To publish, first run getCommitMessage, then publish
-    .\gradlew publishCheck publish
-
-    The publish task depends upon publishVariants task which
-    depends upon getCommitMessage task having already run.
-    publishVariants uses the msg to get variant names, then
-    it configures the publish task to also be dependent upon
-    the cooresponding publishVaraint from triple-t plugin.
-
-    To determine what is published, the msg is added to ext
-    variables using the getCommitMessage task, yet execution
-    of getCommitMessage must happen before configure phase
-    is over. I am going to determine if two tasks in the same
-    gradle command share project.ext instances by issuing
-    something like .\gradlew getCommitMessage publish
-
-    I might need to actually get and store the msg in file or
-    add it as an environment variable. If so I should parse
-    it down to just the important part.
- */
+task publish {}
 
 task getCommitMessagePublishMap(type:Exec){
-    System.out.println("getCommitMessagePublishMap is being configured.")
     commandLine 'git','log', '-1'
     standardOutput = new ByteArrayOutputStream()
     doLast {
-
-        System.out.println("getCommitMessagePublishMap doLiast is called with standardOutput"
-                + standardOutput.toString())
-
         String publishMap = standardOutput.toString()
         if ( publishMap.contains('[PUBLISH')){
-            def start = it.indexOf('[PUBLISH') + 8
-            def stop = it.indexOf(']', start)
+            def start = it.indexOf("[PUBLISH") + 8
+            def stop = it.indexOf("]", start)
             publishMap = '[' + it.getAt(start..stop) + ']';
         } else {
             publishMap = "[]"
@@ -138,9 +100,7 @@ task getCommitMessagePublishMap(type:Exec){
 }
 
 project.afterEvaluate {
-    System.out.println("project.afterEvaluate.")
-
-    // get the path to the publish map
+    // Path to the publishMap file
     java.nio.file.Path pathToPublishMap =
             java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt')
     if (java.nio.file.Files.exists(pathToPublishMap)) {
@@ -162,24 +122,3 @@ project.afterEvaluate {
         }
     }
 }
-
-// if any publishRealeasees are going to happen this task depends on them.
-task publish {
-    System.out.println("publish in config")
-    doLast {
-        System.out.println("publish in doLast")
-    }
-}
-
-/*
-task publishVariants {
-    System.out.println("publishVariants in configuration.")
-
-
-}
-
-doLast {
-    System.out.println("publishVariants doLast.")
-}
-}
-*/

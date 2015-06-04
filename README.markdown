@@ -11,6 +11,21 @@ This project builds upon a [previous project] found under a separate branch of t
 
 [previous project]:https://github.com/iammck/ECalculon/tree/PublishByVersionCode
 
+#Tasks
+Two tasks, publish and getCommitMessagePublishMap, are added to the project. The second gets the commit message, strips off the extras and stores it as a groovy map as a string. This string is evaluated and if any entries are found, the corresponding publishVariant task added by the google-play-publisher plugin is found and declared a dependency of the publish task. The dependencies are executed before the publish task.
+
+
+#Commit Message
+A publish item in the commit msg must take the form of a groovy map as a string with the first item specifying the name of the variant and the second is the track for each variant to be published. The list should be wrapped with \[PUBLISH to the left and a \] to the right of the map. In example
+
+    [PUBLISH 'release' : 'alpha', 'flavorRelease' : 'beta']
+
+This project uses
+
+    [PUBLISH 'release' : 'alpha']
+
+#CI build Script
+The getCommitMessagePublishMap and publish tasks must appear sequentially. The publish task depends upon the execution of getCommitMessagePublishMap task.
 
 ##Some useful links
 ####Travis-CI
