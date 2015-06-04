@@ -115,9 +115,14 @@ play {
  */
 
 task getCommitMessagePublishMap(type:Exec){
+    System.out.println("getCommitMessagePublishMap is being configured.")
     commandLine 'git','log', '-1'
     standardOutput = new ByteArrayOutputStream()
     doLast {
+
+        System.out.println("getCommitMessagePublishMap doLiast is called with standardOutput"
+                + standardOutput.toString())
+
         String publishMap = standardOutput.toString()
         if ( publishMap.contains('[RELEASE')){
             def start = it.indexOf('[RELEASE' + 8)
@@ -134,11 +139,16 @@ task getCommitMessagePublishMap(type:Exec){
 
 task publishVariants {
     afterEvaluate {
+        System.out.println("publishVariants afterEvaluate.")
+
         java.nio.file.Path pathToPublishMap =
                 java.nio.file.Paths.get('app', 'build', 'tmp', 'publishMap.txt')
         if (java.nio.file.Files.exists(pathToPublishMap)) {
             File publishMapFile = pathToPublishMap.toFile()
             String pms = publishMapFile.getText()
+
+            System.out.println("publishVariants afterEvaluate string found pms " + pms)
+
             // evaluate the publish Map, then for each variant and track pair,
             evaluate(pms).each { key, value ->
                 // set up the varaint name.
