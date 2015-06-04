@@ -90,7 +90,7 @@ task getCommitMessagePublishMap(type:Exec){
         if ( publishMap.contains('[PUBLISH')){
             Integer start = publishMap.indexOf('[PUBLISH') + 8
             Integer stop = publishMap.indexOf("]", start)
-            result = '[' + publishMap.getAt(start..stop) + ']'
+            result = '[' + publishMap.getAt(start..stop)
 
             System.out.println("getCommitMessagePublishMap found publishMap at " +
                     "start, stop values " + start + " " + stop)
