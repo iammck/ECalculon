@@ -163,6 +163,11 @@ task publishVariants {
     }
 }
 
-task publish(dependsOn:publishVariants)
 // if any publishRealeasees are going to happen this task depends on them.
+task publish(dependsOn:publishVariants){
+    System.out.println("publish in config")
+    doLast {
+        System.out.println("publish in doLast")
+    }
+}
 
