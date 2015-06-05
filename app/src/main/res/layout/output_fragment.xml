@@ -4,7 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/output_fragment_content_description">
+    android:contentDescription="@string/output_fragment_content_description"
+    android:paddingTop="@dimen/output_text_padding"
+    android:paddingBottom="@dimen/output_text_padding">
 
     <TextView
         android:id="@+id/output"
@@ -12,9 +14,12 @@
         android:layout_height="wrap_content"
         android:text="@string/default_output"
         android:gravity="right"
-        android:layout_margin="@dimen/output_padding"
+        android:layout_margin="@dimen/output_margin"
         android:textSize="@dimen/output_text_size"
         android:textColor="#000000"
+        android:textStyle="bold"
         android:background="@drawable/output_background"
-        android:maxLength="@integer/output_max_length" />
+        android:maxLength="@integer/output_max_length"
+        android:paddingTop="@dimen/output_text_padding"
+        android:paddingBottom="@dimen/output_text_padding" />
 </LinearLayout>
