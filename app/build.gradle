@@ -60,20 +60,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
-
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
-
-/*play {
-    serviceAccountEmail = ''
-    pk12File = file("keystore/ecalculonp12.p12")
-}*/
 
 play {
     serviceAccountEmail = System.getenv("SAEMAIL")
     pk12File = file("keystore/ecalculonp12.p12")
 }
-
 
 ////////////////
 // PUBLISHING///

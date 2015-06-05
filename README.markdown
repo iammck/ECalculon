@@ -1,31 +1,45 @@
 [![Build Status](https://travis-ci.org/iammck/ECalculon.svg?branch=master)](https://travis-ci.org/iammck/ECalculon)
 
+
+
 [![Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.mck.ecalculon)
 
+Or get the [alpha] by first joining the [Google Group].
+
+[alpha]:https://play.google.com/apps/testing/com.mck.ecalculon
+[Google Group]:https://groups.google.com/forum/#!forum/commckalphatesting
+
 #About
-The ECalculon project is for experimenting and learning continuous integration concepts and techniques for Android software development. My goal with this project is to publish APKs to Google Play by git commit message.
+The ECalculon project is for experimenting and learning continuous integration concepts and techniques for Android software development.
+Currently this project publishes APKs to Google Play by git commit message after successfully running and passing all tests. The project builds upon a [previous project] found under a separate branch of this repo. In that project, after successful commit and tests, the application is published, only stopping (successfully) if the version code is not updated.
 
-The application is a simple calculator named after Calculon the famous robot actor from *All My Circuts*. The application uses the support library and is a fragment activity. There are several integration tests using junit. Those that test the UI also use espresso 2.
+The application is a simple calculator named after Calculon the famous robot actor from *All My Circuts*. The application uses the support library and is a fragment activity. There are several integration tests using junit. Those that test the UI also use espresso 2. What is neat about espresso is that it can run tests using an emulator, which is necessary for running tests on the server.
 
-This project builds upon a [previous project] found under a separate branch of this repo.
+This project uses [Travis-CI] to host the continuous integration service. The previous project's [README] detailes more accurately the set up process and contains many links to other examples, faqs and tutorials that helped me configure and run ci builds.
 
 [previous project]:https://github.com/iammck/ECalculon/tree/PublishByVersionCode
+[Travis-CI]:https://travis-ci.org/
+[README]:https://github.com/iammck/ECalculon/blob/PublishByVersionCode/README.markdown
 
-#Tasks
-Two tasks, publish and getCommitMessagePublishMap, are added to the project. The second gets the commit message, strips off the extras and stores it as a groovy map as a string. This string is evaluated and if any entries are found, the corresponding publishVariant task added by the google-play-publisher plugin is found and declared a dependency of the publish task. The dependencies are executed before the publish task.
+#Gradle Tasks
+Two new tasks, `publish` and `getCommitMessagePublishMap`, are defined in app/build.gradle. The second is of type Exec and gets the commit message, strips off the extra bits producing a string representation of a groovy Map. The result is stored in a file. Before the publish task is executed, the file is read and the map string is evaluated into a map object. If any entries are found, the corresponding publishVariant task (defined by the [google-play-publisher] plugin) is found and declared a dependency of the publish task. The dependencies are executed before the publish task.
 
+[google-play-publisher]:https://github.com/Triple-T/gradle-play-publisher
 
-#Commit Message
-A publish item in the commit msg must take the form of a groovy map as a string with the first item specifying the name of the variant and the second is the track for each variant to be published. The list should be wrapped with \[PUBLISH to the left and a \] to the right of the map. In example
+#The Commit Message
+A publish item in the commit msg must take the form of a groovy map as a string with the first item specifying the name of the variant and the second item is the track for each variant to be published. The list should be wrapped within `[PUBLISH` to the left and a `]` to the right of the map. In example
 
     [PUBLISH 'release' : 'alpha', 'flavorRelease' : 'beta']
-
 This project uses
 
     [PUBLISH 'release' : 'alpha']
+The message must be on a single line and can be written anywhere in the commit message.
 
 #CI build Script
-The getCommitMessagePublishMap and publish tasks must appear sequentially. The publish task depends upon the execution of getCommitMessagePublishMap task.
+The getCommitMessagePublishMap and publish tasks must appear sequentially. The publish task depends upon the execution of getCommitMessagePublishMap task so that it can gain access to the commit message by executing a `git log -1` command. I am currently looking for ways to combine the two tasks.
+
+#Reflections
+Commiting successfully tested code then having it published and available for consumers by way of a single command in a git commit message is awesome. I don't think it is a useful solution for publishing to the production track, but it might be useful for the alpha or beta tracks. More importantly, this exercise could be generalized to allow the addition of one time directives for the ci build based on the commit. In example suppose the project is only building and debugging a debug version of an apk by default on the ci server. Having had some successful debug builds, a developer would like to run the tests on the release version and if everything still checks out, the developer would like to publish. A commit message such as `[GRADLE connectedAndroidTest publishRelease]`  could be injected into the commit message and performed during the ci build cycle after a commit. A less serious example could be to describe who should be notified of the build: `[EMAIL SUCCESS:michael@gzup.com, FAIL:john@gzdown.com]`
 
 ##Some useful links
 ####Travis-CI
