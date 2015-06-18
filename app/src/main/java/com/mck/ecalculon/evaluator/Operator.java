@@ -10,11 +10,10 @@ import java.util.ArrayList;
 public abstract class Operator extends Symbol {
     public Operator(String token, SymbolType type, ArrayList<Symbol> resultList, ArrayList<Symbol> pendingList) throws EvaluationException {
         super(token, type, resultList, pendingList);
-        Log.v("com.mck.bin", "init has begun for " + token + " operator.");
-
-
     }
 
+
+    // utility for both binary and unary operators.
     protected Double toDouble(Symbol value) throws EvaluationException{
         try{
             return Double.valueOf(value.toString());

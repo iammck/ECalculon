@@ -2,6 +2,7 @@ package com.mck.ecalculon;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,47 +10,24 @@ import android.view.ViewGroup;
 import com.mck.ecalculon.evaluator.EvaluationException;
 import com.mck.ecalculon.evaluator.Evaluator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.InvalidParameterException;
 
 /**
  * Created by mike on 5/2/2015.
  */
 public class ECalculonFragment extends Fragment {
 
-    private static final String KEY_NUMBERS = "MainActivity.KEY_NUMBERS";
-    private static final String KEY_OPERATORS = "MainActivity.KEY_OPERATORS";
-    private static final String KEY_INPUTS = "MainActivity.KEY_INPUTS" ;
-    private static final String KEY_WAS_ERROR = "MainActivity.KEY_WAS_ERROR";
-    private static final String KEY_WAS_EQUALS = "MainActivity.KEY_WAS_EQUALS";
-
-    private Evaluator evaluator;
-    private ArrayList<String> numbers;
-    private ArrayList<String> operators;
-    private boolean wasError = false;
-    private boolean wasLastInputEquals = false;
+    private static final java.lang.String KEY_L_PARENTHESIS_COUNT = "KEY_L_PARENTHESIS_COUNT";
+    private static final java.lang.String KEY_R_PARENTHESIS_COUNT = "KEY_R_PARENTHESIS_COUNT";
+    private static final java.lang.String KEY_CURRENT_EXPRESSION = "KEY_CURRENT_EXPRESSION";
     private OutputFragment outputFragment;
-    private ArrayList<InputTypes> inputHistory;
-    private enum InputTypes {
-        number,operator;
-        public static ArrayList<InputTypes> fromStringArrayList(ArrayList<String> input){
-            ArrayList<InputTypes> result = new ArrayList<InputTypes>();
-            for(String type: input){
-                result.add(InputTypes.valueOf(type));
-            }
-            return result;
-        }
-        public static ArrayList<String> toStringArrayList(ArrayList<InputTypes> input){
-            ArrayList<String> result = new ArrayList<String>();
-            for(InputTypes type: input){
-                result.add(type.toString());
-            }
-            return result;
-        }
-    }
+
+    private String currentExpression;
+    private int lParenthesisCount;
+    private int rParenthesisCount;
 
     public ECalculonFragment(){
-        evaluator = new Evaluator();
+        currentExpression = "0";
     }
 
     @Override
@@ -58,11 +36,9 @@ public class ECalculonFragment extends Fragment {
         // no saved state, set up the fragments
         if (savedInstanceState == null){
             // No saved state, set up local variables to defaults.
-            numbers = new ArrayList<String>();
-            numbers.add("0");
-            operators = new ArrayList<String>();
-            inputHistory = new ArrayList<InputTypes>();
-
+            lParenthesisCount = 0;
+            rParenthesisCount = 0;
+            currentExpression = "";
             // Add the fragments to a private Fragement Manager
             OutputFragment output = new OutputFragment();
             InputFragment input = new InputFragment();
@@ -71,13 +47,9 @@ public class ECalculonFragment extends Fragment {
                     .add(R.id.input_fragment_container, input)
                     .commit();
         } else {
-            // there is a saved instance state, use it to setup variables.
-            numbers = savedInstanceState.getStringArrayList(KEY_NUMBERS);
-            operators = savedInstanceState.getStringArrayList(KEY_OPERATORS);
-            ArrayList<String> inputsAsStrings = savedInstanceState.getStringArrayList(KEY_INPUTS);
-            inputHistory = InputTypes.fromStringArrayList(inputsAsStrings);
-            wasError = savedInstanceState.getBoolean(KEY_WAS_ERROR);
-            wasLastInputEquals = savedInstanceState.getBoolean(KEY_WAS_EQUALS);
+            lParenthesisCount = savedInstanceState.getInt(KEY_L_PARENTHESIS_COUNT, 0);
+            rParenthesisCount = savedInstanceState.getInt(KEY_R_PARENTHESIS_COUNT, 0);
+            currentExpression = savedInstanceState.getString(KEY_CURRENT_EXPRESSION);
         }
         return result;
     }
@@ -85,246 +57,185 @@ public class ECalculonFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList(KEY_NUMBERS, numbers);
-        outState.putStringArrayList(KEY_OPERATORS, operators);
-        ArrayList<String> inputsAsStrings  = InputTypes.toStringArrayList(inputHistory);
-        outState.putStringArrayList(KEY_INPUTS, inputsAsStrings);
-        outState.putBoolean(KEY_WAS_ERROR, wasError);
-        outState.putBoolean(KEY_WAS_EQUALS, wasLastInputEquals);
+        outState.putInt(KEY_L_PARENTHESIS_COUNT, lParenthesisCount);
+        outState.putInt(KEY_L_PARENTHESIS_COUNT, lParenthesisCount);
+        outState.putString(KEY_CURRENT_EXPRESSION, currentExpression);
     }
 
-    public void handleNumberInput(String number) {
+    public String getCurrentExpression() {
+        return currentExpression;
+    }
+
+    public void insertNumber(char number) {
         if(hasMaxOutput()){
             return;
         }
-        wasLastInputEquals = false;
-        // if last item in numbers is just a "0", replace it.
-        if (numbers.get(numbers.size() - 1).equals("0")){
-            numbers.set(numbers.size() - 1, number);
-        } else { // else append this number.
-            String current = numbers.get(numbers.size() - 1);
-            numbers.set(numbers.size() - 1, current + number);
-        }
-
-        // no input history or error, just overwrite output.
-        if (inputHistory.size() == 0 || wasError) {
-            getOutputFragment().setOutput(number);
-            wasError = false;
-        } else {
-            getOutputFragment().appendString(number);
-        }
-        // do I need to add  a new instance?
-        inputHistory.add(InputTypes.number);
+        currentExpression += String.valueOf(number);
+        getOutputFragment().setOutput(currentExpression);
     }
 
-    public void handleOperatorInput(String operator) {
+    public void insertDecimal() {
         if(hasMaxOutput()){
             return;
         }
-        // if there was an equals,
-        if (wasLastInputEquals){
-            // use the output as input one char at a time.
-            String output = getOutputFragment().getOutputString();
-            for(int index = 0; index < output.length(); index++){
-                handleNumberInput(String.valueOf(output.charAt(index)));
-            }
-            wasLastInputEquals = false;
+        // if currentExpression is empty or the last item is a ' '
+        if (currentExpression.isEmpty() ||
+                currentExpression.charAt(currentExpression.length() - 1) == ' '){
+            currentExpression += "0";
         }
-        // Get previous input type it is either null or the last one recorded.
-        int hSize = inputHistory.size();
-        InputTypes prevType = (hSize == 0 )? null: inputHistory.get(hSize -1);
-
-        // The operator is binary if prev input type is a number
-        if ( prevType != null && prevType == InputTypes.number){
-            // add numbers entry, update operators and input history
-            numbers.add("0");
-            operators.add(operator);
-            inputHistory.add(InputTypes.operator);
-            // update the output fragment
-            getOutputFragment().appendString(operator);
-        } else {
-            // if the operator is not binary, it may still be unary negation.
-            if (operator.equals("-")) {
-                // do not insert a new numbers item, but do other updates.
-                operators.add(operator);
-                inputHistory.add(InputTypes.operator);
-                // If this is the first item, set output to blank line
-                if (prevType == null){ // and set wasError to false.
-                    wasError = false;
-                    getOutputFragment().setOutput("");
-
-                }
-                // add the operatory
-                getOutputFragment().appendString(operator);
-            }
-        }
+        currentExpression += ".";
+        getOutputFragment().setOutput(currentExpression);
     }
 
-    public void handleUndoInput(){
-        // if there is no input history
-        if (inputHistory.size() == 0 ){
-            // just update the output and reset stuff.
-            getOutputFragment().setOutput("0");
-            numbers = new ArrayList<String>();
-            numbers.add("0");
-            operators = new ArrayList<String>();
-            wasError = false;
-            wasLastInputEquals = false;
-            // nothing else to do, return.
+    public void insertOperator(char operator) {
+        if(hasMaxOutput()){
             return;
-        } // there is at least one input to undo.
-        // depending on input history type.
-        InputTypes last = inputHistory.get(inputHistory.size() - 1);
-        if( last == InputTypes.number) {
-            // the original number
-            String original = numbers.get(numbers.size() - 1);
-            // index of last element
-            int lastIndex = original.length() - 1;
-            String modified = null;
-            // if it is a size of one, then set modified to "0";
-            if (original.length() == 1) {
-                modified = "0";
-                // else if original length is two and is equal to "0."
-            } else if (original.length() == 2 && original.equals("0.")) {
-                // Check to see if the user entered the leading zero.
-                // if input history is at least two and second to last input was a number
-                if (inputHistory.size() > 1
-                        && inputHistory.get(inputHistory.size() - 2) == InputTypes.number) {
-                    //  remove a number input type from history
-                    inputHistory.remove(inputHistory.size() - 2);
-                }
-                // leave the left most number for numbers list update.
-                int i = original.length() - 1;
-                modified = original.substring(0, i);
-
-            }else { // index to be removed.
-                int i = original.length() - 1;
-                modified = original.substring(0, i);
-            }
-            numbers.set(numbers.size() - 1, modified);
-
-            // remove last char from from the outputFragment
-            getOutputFragment().removeLastChar();
-            // If removing a period and there is more than one item in numbers.
-            lastIndex = original.length() - 1;
-            if (original.charAt(lastIndex) == '.' && numbers.size() > 1){
-                // if original is length of two and original.charAt 0 is 0
-                if (original.length() == 2 && original.charAt(0) == '0'){
-                    // remove it from outputFragment
-                    getOutputFragment().removeLastChar();
-                }
-            }
-        } else if ( last == InputTypes.operator) {
-            // if not (only one input history item,
-            // or the second to last item type is also an operator)
-            if (!(inputHistory.size() == 1
-                    || (inputHistory.get(inputHistory.size() - 2)
-                    == InputTypes.operator))) {
-                // must be a binary operator remove last numbers index
-                numbers.remove(numbers.size()-1);
-            }
-            // remove the last operator from operators,
-            operators.remove(operators.size() - 1);
-            // remove the last char from outputFrag
-            getOutputFragment().removeLastChar();
-            // if this was the first input in history
-            if (inputHistory.size() == 1){
-                // show a 0
-                getOutputFragment().setOutput("0");
-            }
         }
-        // remove the input from the history.
-        inputHistory.remove(inputHistory.size() - 1);
+        // if current expression isn't empty and the last item is a '.', insert a trailing '0'
+        if (!currentExpression.isEmpty() &&
+                currentExpression.charAt(currentExpression.length() -1) == '.'){
 
-        // if the input history is now 0, set output to 0
-        if( inputHistory.size() == 0 ) {
-            getOutputFragment().setOutput("0");
+            insertNumber('0');
         }
+        currentExpression += " " + String.valueOf(operator) + " ";
+        getOutputFragment().setOutput(currentExpression);
     }
 
-    public void handleClearInput(){
+
+    public void insertNegation() {
+        if(hasMaxOutput()){
+            return;
+        }
+        // the leading operator, if any should insert the left space
+        currentExpression += String.valueOf("- "); // neg + right space.
+        getOutputFragment().setOutput(currentExpression);
+    }
+
+    public void insertLeftParenthesis() {
+        if(hasMaxOutput()){
+            return;
+        }
+        lParenthesisCount++;
+
+        currentExpression += "( ";
+        getOutputFragment().setOutput(currentExpression);
+    }
+
+    public void insertRightParenthesis() {
+        if(hasMaxOutput()){
+            return;
+        }
+        rParenthesisCount++;
+
+        if (!currentExpression.isEmpty()){
+            char last = currentExpression.charAt(currentExpression.length() -1);
+            // if current expression isn't empty and the last item is a '.', insert a trailing '0'
+            if (last == '.'){
+                insertNumber('0');
+            }
+        }
+        currentExpression += " )";
+        getOutputFragment().setOutput(currentExpression);
+    }
+
+    public void undo() {
+        Log.v("com.mck.undo", "entering undo");
+        if (currentExpression.isEmpty()){
+            getOutputFragment().setOutput("0");
+            return;
+        }
+        char lastChar = currentExpression.charAt(currentExpression.length() - 1);
+        Log.v("com.mck.undo", "lastChar is '" + lastChar + "'");
+
+        // if the last is not a ')' and not a ' ', remove it, but be a number or decimal.
+        if(lastChar != ')' && lastChar != ' '){ // remove it.
+            Log.v("com.mck.undo", "last was not ')' and not ' ', but was " + lastChar);
+            currentExpression = currentExpression.substring(
+                    0,currentExpression.length() - 1);
+        // if the second to last is a negation or parenthesis remove last 2 indices.
+        } else if (wasNegationLastInput()) {
+            Log.v("com.mck.undo", "last was negation");
+            currentExpression = currentExpression.substring(
+                    0, currentExpression.length() - 2);
+            // remove the operator plus its spacing.
+        }else if (getLastInput() == '('){
+            Log.v("com.mck.undo", "last was lparenthesis");
+            lParenthesisCount--;
+            currentExpression = currentExpression.substring(
+                    0,currentExpression.length() - 2);
+        }else if (getLastInput() == ')'){
+            Log.v("com.mck.undo", "last was rParenthesis");
+            rParenthesisCount--;
+            currentExpression = currentExpression.substring(
+                    0,currentExpression.length() - 2);
+        } else { // must be operator, remove 3 indices.
+            Log.v("com.mck.undo", "last was operator");
+            currentExpression = currentExpression.substring(
+                    0,currentExpression.length() - 3);
+        }
+        // set the output to 0 if currentExpression is empty.
+        String output = currentExpression.isEmpty()? "0": currentExpression;
+        getOutputFragment().setOutput(output);
+    }
+
+    private boolean wasNegationLastInput() {
+        char last = getLastInput();
+        if (last == '-'){
+            // is currentExpression a "- "
+            if (currentExpression.length() == 2){
+                return true;
+
+            }
+
+            char secondLast = getSecondToLastInput();
+            Log.v("com.mck.undo", "wasNegationLastInput found last, secondLast as "
+                    + last + ", " + secondLast);
+            if ( secondLast == '-' ||
+                    secondLast == '+' ||
+                    secondLast == 'x' ||
+                    secondLast == '/' ||
+                    secondLast == '('){
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void clear() {
+        currentExpression = "";
+        lParenthesisCount = 0;
+        rParenthesisCount = 0;
+        getOutputFragment().setOutput("");
         getOutputFragment().setOutput("0");
-        numbers.clear();
-        numbers.add("0");
-        operators.clear();
-        inputHistory.clear();
-        wasLastInputEquals = false;
-        wasError = false;
     }
 
-    public void handleEqualsInput() {
-        OutputFragment outFrag = getOutputFragment();
-        String expression = outFrag.getOutputString();
-        handleClearInput();
+    public void evaluate() {
         try {
-            String result = evaluator.evaluate(expression);
-            wasLastInputEquals = true;
-            outFrag.setOutput(result);
+            if (currentExpression.isEmpty()){
+                currentExpression = "0";
+            }
+            Evaluator evaluator = new Evaluator();
+            currentExpression = evaluator.evaluate(currentExpression);
+            getOutputFragment().setOutput(currentExpression);
         } catch (EvaluationException e) {
             e.printStackTrace();
-            wasError = true;
-            outFrag.setError();
+            currentExpression = "";
+            getOutputFragment().setError();
+        } finally {
+            lParenthesisCount = 0;
+            rParenthesisCount = 0;
         }
     }
 
-    public void handleDecimalInput() {
-        if(hasMaxOutput()){
-            return;
-        }
-        // if there was an equals previously, clean up output
-        if (wasLastInputEquals){
-            getOutputFragment().setOutput("0");
-            wasLastInputEquals = false;
-        }
-        if (hasDecimal()){
-            return;
-        }
-        // get update string for output fragment
-        String outFragUpdate = ".";
-        // if this is not the first item in numbers.
-        if (!(numbers.size() == 1)) {
-            // if last numbers item is just a zero
-            if (numbers.get(numbers.size() - 1).equals("0")) {
-                // if the user did not enter the zero, then need to add the 0
-                if (inputHistory.get(inputHistory.size() - 1) != InputTypes.number) {
-                    // set the update for output fragment to "0."
-                    outFragUpdate = "0.";
-                }
-            }
-            // this is the first item in numbers, possibly clear error output
-        } else {
-            if (wasError){
-                wasError = false;
-                getOutputFragment().setOutput("0");
-            }
-        }
-        // output the update with the output fragment
-        getOutputFragment().appendString(outFragUpdate);
 
-        // update the last numbers item with the decimal.
-        String original = numbers.get(numbers.size() - 1);
-        String update = original + ".";
-        numbers.set(numbers.size() - 1, update);
-
-        // add this input as a number input type into history.
-        inputHistory.add(InputTypes.number);
+    public int getParenthesisDifference() {
+        return lParenthesisCount - rParenthesisCount;
     }
+
 
     private boolean hasMaxOutput() {
         return getOutputFragment().hasMaxOutput();
-    }
-
-    // helpers
-    public List getNumbers() {
-        return numbers;
-    }
-
-    public List getOperators() {
-        return operators;
-    }
-
-    public List getInputTypeHistory() {
-        return inputHistory;
     }
 
     public OutputFragment getOutputFragment(){
@@ -335,16 +246,31 @@ public class ECalculonFragment extends Fragment {
         return outputFragment;
     }
 
-    // testing helper methods.
-    public boolean hasDecimal(){
-        return numbers.get(numbers.size()-1).contains(".");
+
+    public char getLastInput() {
+        if (currentExpression.isEmpty()){
+            throw new InvalidParameterException("currentExpression is empty!");
+        }
+        char result = currentExpression.charAt(currentExpression.length() - 1);
+        if (result == ' '){
+            result = currentExpression.charAt(currentExpression.length() - 2);
+        }
+        return result;
     }
 
-    public void setEvaluator(Evaluator evaluator) {
-        this.evaluator = evaluator;
-    }
+    public char getSecondToLastInput() {
+        if (currentExpression.isEmpty() || currentExpression.length() < 2){
+            throw new InvalidParameterException("currentExpression is not at least two in length!");
+        }
 
-    public void setWasError(Boolean value){
-        wasError = true;
+        char last = currentExpression.charAt(currentExpression.length() - 1);
+        int firstIndex = (last == ' ') ?
+            currentExpression.length() - 2 : currentExpression.length() -1;
+
+        char secondLast = currentExpression.charAt((firstIndex - 1));
+        if (secondLast == ' '){
+            secondLast = currentExpression.charAt((firstIndex - 2));
+        }
+        return secondLast;
     }
 }

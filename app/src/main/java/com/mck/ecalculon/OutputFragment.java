@@ -1,7 +1,10 @@
 package com.mck.ecalculon;
 
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,6 @@ import android.widget.TextView;
 public class OutputFragment extends Fragment {
     private static final String KEY_OUTPUT = "OutputFragment.KEY_OUTPUT";
     private String currentOutput;
-    private Integer maxOutputCharacters;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,7 +26,6 @@ public class OutputFragment extends Fragment {
         } else {
             currentOutput = "0";
         }
-        maxOutputCharacters = getResources().getInteger(R.integer.output_max_length);
         return result;
     }
 
@@ -34,61 +35,35 @@ public class OutputFragment extends Fragment {
         outState.putString(KEY_OUTPUT, currentOutput);
     }
 
-    public void appendString(String s) {
-        if (getView() != null){
-            TextView output = (TextView) getView().findViewById(R.id.output);
-            output.append(s);
-            currentOutput = output.getText().toString();
-        }
-    }
-
     public void setOutput(String s) {
-        if (getView() != null){
-            TextView output = (TextView) getView().findViewById(R.id.output);
-            output.setText(s);
-            currentOutput = output.getText().toString();
+        StringBuilder result = new StringBuilder();
+        for(String str :s.trim().split(" ")){
+            result.append(str);
         }
-    }
 
-    public void removeLastChar() {
+        currentOutput = result.toString();
         if (getView() != null){
             TextView output = (TextView) getView().findViewById(R.id.output);
-            String s = output.getText().toString();
-            String result = s.substring(0, s.length()-1);
-            output.setText(result);
-            currentOutput = output.getText().toString();
-        }
-    }
-
-    public String getOutputString() {
-        return currentOutput;
-    }
-
-    public void clearError() {
-        if (getView() != null){
-            TextView output = (TextView) getView().findViewById(R.id.output);
-            String s = "0";
-            output.setText(s);
-            currentOutput = output.getText().toString();
+            output.setText(currentOutput);
         }
     }
 
     public void setError() {
+        currentOutput = "ERROR";
         if (getView() != null){
             TextView output = (TextView) getView().findViewById(R.id.output);
-            String s = getResources().getString(R.string.error_output);
-            output.setText(s);
-            currentOutput = output.getText().toString();
+            output.setText(currentOutput);
         }
     }
 
     public boolean hasMaxOutput() {
-        if (getView() != null) {
-            TextView output = (TextView) getView().findViewById(R.id.output);
-            int current = output.length();
-            return (current >= maxOutputCharacters) ? true : false;
+        TextView output = (TextView) getView().findViewById(R.id.output);
+        int currentLength = output.length();
+        //max out is within two of max output length.
+        int max = getResources().getInteger(R.integer.output_max_length);
+        if (currentLength < max){
+            return false;
         }
-        return false;
+        return true;
     }
-
 }

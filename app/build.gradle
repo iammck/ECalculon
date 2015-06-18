@@ -40,26 +40,29 @@ android {
         }
 
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // if building with the ci service
-            if (System.getenv("KEY_ALIAS") != null){
+            if (System.getenv("KEY_ALIAS") != null) {
                 signingConfig signingConfigs.travis
-            } else if ( System.console() != null){
+            } else if (System.console() != null) {
                 signingConfig signingConfigs.console
             }
         }
+
     }
     packagingOptions {
-        exclude 'LICENSE.txt'
+            exclude 'LICENSE.txt'
+        }
     }
-}
 
 dependencies {
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
 

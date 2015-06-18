@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">ECalculon</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
     <string name="ecalculon_fragment_content_description">ECalculon Calculator</string>
     <string name="output_fragment_content_description">ECalculon calculator output</string>
     <string name="default_output">0</string>
     <string name="input_fragment_content_description">Ecalculon calculator input</string>
+
     <string name="number_1">1</string>
     <string name="number_2">2</string>
     <string name="number_3">3</string>
@@ -20,13 +21,20 @@
     <string name="decimal">.</string>
     <string name="empty"></string>
     <string name="equals">=</string>
-    <string name="operatorDivision">/</string>
-    <string name="operatorMultiplication">x</string>
-    <string name="operatorAddtion">+</string>
-    <string name="operatorSubtraction">-</string>
+    <string name="division">/</string>
+    <string name="multiplication">x</string>
+    <string name="add">+</string>
+    <string name="minus">-</string>
+    <string name="lParenthesis">(</string>
+    <string name="rParenthesis">)</string>
+    <string name="pi">&#960;</string>
     <string name="undo">Undo</string>
     <string name="clear">Clear</string>
-    <string name="zero_button_content_description">zero button</string>
-    <string name="number_button_content_desc">number button</string>
-    <string name="error_output">ERROR</string>
+
+    <string name="piDescription">pi</string>
+    <string name="minusDescription">minus</string>
+    <string name="zeroDescription">zero button</string>
+    <string name="numberDescription">number button</string>
+
+    <string name="error">ERROR</string>
 </resources>

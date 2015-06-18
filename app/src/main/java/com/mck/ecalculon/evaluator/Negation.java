@@ -13,24 +13,6 @@ public class Negation extends Operator {
     public Negation(ArrayList<Symbol> resultList, ArrayList<Symbol> pendingList) throws EvaluationException {
         super("-", SymbolType.negation, resultList, pendingList);
 
-       /* // if this is the first operator in the pending list,
-        if (pendingList.size() == 0){
-            // add it and return.
-            pendingList.add(this);
-            return;
-        }
-
-        // while a last pendingList item exists and has a greater precedence
-        // over this operator.
-        while (pendingList.size() > 0 &&
-                pendingList.get(pendingList.size() - 1).compareTo(this) > 0){
-            // evaluate last pendingList.
-            if (pendingList.get(pendingList.size() - 1).evaluate()){
-                // unable to evaluate the last operator, break out!
-                break;
-            }
-        }*/
-
         // add this operator to pendingList.
         pendingList.add(this);
     }
@@ -74,13 +56,15 @@ public class Negation extends Operator {
         NumberSymbol n = new NumberSymbol(
                 ans.toString() , resultList, pendingList);
 
-        // while there is a pending list and
-        // the last item has a greater or equal precedence over this operator.
-        while ( pendingList.size() > 0 &&
-                pendingList.get(pendingList.size() - 1).compareTo(this) >= 0){
+ /*       // while there is a pending list
+        while ( pendingList.size() > 0 ){
             // evaluate last pendingList.
-            pendingList.get(pendingList.size() - 1).evaluate();
-        }
+            if(pendingList.get(pendingList.size() - 1).evaluate()){
+                return true;
+            } else {
+                break;
+            }
+        }*/
         return true;
     }
 

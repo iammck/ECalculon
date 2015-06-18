@@ -17,7 +17,7 @@ public abstract class Symbol implements Comparable<Symbol>{
     public enum SymbolType {
         number, addition, subtraction,
         multiplication, division,
-        negation
+        negation, lParenthesis, rParenthesis
     }
 
     public Symbol(String token, SymbolType type, ArrayList<Symbol> resultList, ArrayList<Symbol> pendingList) throws EvaluationException{

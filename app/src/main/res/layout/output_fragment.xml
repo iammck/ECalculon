@@ -21,5 +21,7 @@
         android:background="@drawable/output_background"
         android:maxLength="@integer/output_max_length"
         android:paddingTop="@dimen/output_text_padding"
-        android:paddingBottom="@dimen/output_text_padding" />
+        android:paddingBottom="@dimen/output_text_padding"
+        android:scrollHorizontally="false"
+        android:inputType="textMultiLine" />
 </LinearLayout>

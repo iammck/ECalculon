@@ -30,44 +30,59 @@ public class InputFragmentTest extends ActivityInstrumentationTestCase2<MainActi
         super(MainActivity.class);
     }
 
+    private void clickButton(String text) {
+        clickButton(text, null);
+    }
+    private void clickButton(String text, String description){
+        if (description == null){
+            onView(withText(text)).perform(click());
+        } else if (text == null){
+            onView(withContentDescription(description)).perform(click());
+        } else {
+            onView(allOf(withText(text),
+                    withContentDescription(description))).perform(click());
+        }
+    }
+
+    private void clickButtons(String buttons){
+        for( int index = 0 ; index < buttons.length(); index++){
+            clickButton(String.valueOf( buttons.charAt(index)));
+        }
+    }
+
     @Test
     public void testCanClickNumberButtons(){
-        onView(allOf(withText("0"),
-                withContentDescription("number button"))).perform(click());
-        onView(allOf(withText("1"),
-                withContentDescription("number button"))).perform(click());
-        onView(withText("2")).perform(click());
-        onView(withText("3")).perform(click());
-        onView(withText("4")).perform(click());
-        onView(withText("5")).perform(click());
-        onView(withText("6")).perform(click());
-        onView(withText("7")).perform(click());
-        onView(withText("8")).perform(click());
-        onView(withText("9")).perform(click());
+        clickButtons("1234567890");
     }
 
     @Test
     public void testCanClickEqualsButton(){
-        onView(withText("=")).perform(click());
+        clickButton("=");
     }
 
     @Test
     public void testCanClickDecimalButton(){
-        onView(withText(".")).perform(click());
+        clickButton(".");
     }
 
     @Test
     public void testCanClickMenuButtons(){
-        onView(withText("Clear")).perform(click());
-        onView(withText("Undo")).perform(click());
+        clickButton("Clear");
+        clickButton("Undo");
     }
 
     @Test
     public void testCanClickBasicOperatorButtons(){
-        onView(withText("/")).perform(click());
-        onView(withText("x")).perform(click());
-        onView(withText("+")).perform(click());
-        onView(withText("-")).perform(click());
+        clickButtons("2/2x2+2-");
+   }
+
+    @Test
+    public void testCanClickParenthesis(){
+        clickButtons("(2)");
     }
 
+    @Test
+    public void testCanEatPi(){
+        clickButton(null, "pi");
+    }
 }
