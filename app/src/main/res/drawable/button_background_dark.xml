@@ -8,8 +8,8 @@
         />
     <gradient
         android:angle="45"
-        android:centerX="35%"
-        android:startColor="@color/orange_light"
+        android:centerX="45%"
+        android:startColor="@color/orange"
         android:centerColor="@color/bright_yellow"
         android:endColor="@color/brightest_yellow"
         android:type="linear"

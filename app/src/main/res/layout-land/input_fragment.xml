@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/input_fragment_content_description"
-    android:weightSum="6">
+    android:weightSum="12">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="3">
 
         <LinearLayout
             style="@style/ButtonRowLayout">
@@ -79,7 +79,7 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="5">
+        android:layout_weight="9">
 
         <LinearLayout
             style="@style/ButtonRowLayout">
@@ -87,7 +87,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_7"
                     android:id="@+id/button7" />
             </LinearLayout>
@@ -95,7 +95,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_8"
                     android:id="@+id/button8" />
             </LinearLayout>
@@ -103,7 +103,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_9"
                     android:id="@+id/button9" />
             </LinearLayout>
@@ -124,7 +124,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_4"
                     android:id="@+id/button4" />
             </LinearLayout>
@@ -132,7 +132,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_5"
                     android:id="@+id/button5" />
             </LinearLayout>
@@ -140,7 +140,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_6"
                     android:id="@+id/button6" />
             </LinearLayout>
@@ -161,7 +161,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_1"
                     android:id="@+id/button1" />
             </LinearLayout>
@@ -169,7 +169,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_2"
                     android:id="@+id/button2" />
             </LinearLayout>
@@ -177,7 +177,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_3"
                     android:id="@+id/button3" />
             </LinearLayout>
@@ -199,7 +199,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/decimal"
                     android:id="@+id/buttonDecimal" />
             </LinearLayout>
@@ -207,7 +207,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Dark"
                     android:text="@string/number_0"
                     android:id="@+id/button0" />
             </LinearLayout>
@@ -215,7 +215,7 @@
             <LinearLayout
                 style="@style/ButtonLayout">
                 <Button
-                    style="@style/Button"
+                    style="@style/Button.Light"
                     android:text="@string/equals"
                     android:id="@+id/buttonEquals" />
             </LinearLayout>

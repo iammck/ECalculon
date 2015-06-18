@@ -8,12 +8,12 @@
         />
     <gradient
         android:angle="45"
-        android:centerX="35%"
-        android:startColor="@color/orange_light"
-        android:centerColor="@color/bright_yellow"
-        android:endColor="@color/brightest_yellow"
-        android:type="linear"
+        android:startColor="@color/brightest_yellow_translucent"
+        android:endColor="@color/yellow_translucent"
+        android:type="radial"
+        android:gradientRadius="55"
         />
+
     <padding
         android:left="10dp"
         android:top="10dp"
@@ -25,8 +25,4 @@
         android:height="40dp"
         />
 
-
-
-
 </shape>
-
