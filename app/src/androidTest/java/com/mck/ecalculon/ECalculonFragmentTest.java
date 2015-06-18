@@ -140,38 +140,38 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
 
     public void testDivisionAfterNumber(){
         clickButtons("9/");
-        checkOutputMatches("9 /");
+        checkOutputMatches("9/");
     }
 
     public void testMultiplicationAfterNumber(){
         clickButtons("9x");
-        checkOutputMatches("9 x");
+        checkOutputMatches("9x");
     }
 
     public void testAddfterNumber(){
         clickButtons("9+");
-        checkOutputMatches("9 +");
+        checkOutputMatches("9+");
     }
 
     public void testSubtractAfterNumber(){
         clickButtons("9-");
-        checkOutputMatches("9 -");
+        checkOutputMatches("9-");
     }
 
     public void testNegateAfterSubtract(){
         clickButtons("9--");
-        checkOutputMatches("9 - -");
+        checkOutputMatches("9--");
     }
 
 
     public void testNegateOnlyOnceAfterSubtract(){
         clickButtons("9---");
-        checkOutputMatches("9 - -");
+        checkOutputMatches("9--");
     }
 
     public void testNegateOnlyOnceAfterAdd(){
         clickButtons("9+-");
-        checkOutputMatches("9 + -");
+        checkOutputMatches("9+-");
     }
 
     /////////////
@@ -187,7 +187,7 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
 
     public void testNumberAfterDecimalInitialOutput(){
         clickButtons(".+");
-        checkOutputMatches("0.0 +");
+        checkOutputMatches("0.0+");
     }
 
     public void testDecimalWithERRORInitialOutput(){
@@ -198,7 +198,7 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
 
     public void testNumbersCanHaveDecimal(){
         clickButtons("1.1+.1");
-        checkOutputMatches("1.1 + 0.1");
+        checkOutputMatches("1.1+0.1");
     }
 
     public void testNumberCanOnlyHaveOneDecimal(){
@@ -208,7 +208,7 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
 
     public void testDecimalInputAfterOperatorInput(){
         clickButtons("3+.");
-        checkOutputMatches("3 + 0.");
+        checkOutputMatches("3+0.");
     }
 
     ////////////
@@ -231,7 +231,7 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
         clickButtons("1+1=");
         checkOutputMatches("2");
         clickButtons("-");
-        checkOutputMatches("2 -");
+        checkOutputMatches("2-");
     }
 
     public void testLeftParenthesisAfterEquals() {
@@ -310,7 +310,7 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
     public void testUndoNegationAfterSubtract(){
         clickButtons("1--");
         clickButton("Undo");
-        checkOutputMatches("1 -");
+        checkOutputMatches("1-");
     }
 
     public void testUndoDecimal(){
@@ -353,48 +353,48 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
         clickButton("(");
         clickButtonWithDesc("pi");
         clickButton(")");
-        checkOutputMatches("( 3.14 )");
+        checkOutputMatches("(3.14)");
     }
 
     public void testLeftParenthesisButtons() {
-        insertCheckClear("-(", "- (");
-        insertCheckClear("-((", "- ( (");
-        insertCheckClear("(-", "( -");
+        insertCheckClear("-(", "-(");
+        insertCheckClear("-((", "-((");
+        insertCheckClear("(-", "(-");
         insertCheckClear("(+", "(");
-        insertCheckClear("(3", "( 3");
-        insertCheckClear("(3(", "( 3");
-        insertCheckClear("3+(", "3 + (");
-        insertCheckClear("3+(-", "3 + ( -");
-        insertCheckClear("3+(+", "3 + (");
-        insertCheckClear("3+2(", "3 + 2");
-        insertCheckClear("3+(2", "3 + ( 2");
-        insertCheckClear("3+-(2", "3 + - ( 2");
-        insertCheckClear("3+-(-2", "3 + - ( - 2");
+        insertCheckClear("(3", "(3");
+        insertCheckClear("(3(", "(3");
+        insertCheckClear("3+(", "3+(");
+        insertCheckClear("3+(-", "3+(-");
+        insertCheckClear("3+(+", "3+(");
+        insertCheckClear("3+2(", "3+2");
+        insertCheckClear("3+(2", "3+(2");
+        insertCheckClear("3+-(2", "3+-(2");
+        insertCheckClear("3+-(-2", "3+-(-2");
 
-        insertCheckClear("(.3", "( 0.3");
-        insertCheckClear("(.3(", "( 0.3");
-        insertCheckClear("3+2(", "3 + 2");
-        insertCheckClear("3+(.", "3 + ( 0.");
-        insertCheckClear("3+-(-.", "3 + - ( - 0.");
+        insertCheckClear("(.3", "(0.3");
+        insertCheckClear("(.3(", "(0.3");
+        insertCheckClear("3+2(", "3+2");
+        insertCheckClear("3+(.", "3+(0.");
+        insertCheckClear("3+-(-.", "3+-(-0.");
     }
 
     public void testRightParenthesisButtons() {
         insertCheckClear(")9", "9");
-        insertCheckClear("(3))", "( 3 )");
-        insertCheckClear("1+((3))", "1 + ( ( 3 ) )");
-        insertCheckClear("(3+)", "( 3 +");
-        insertCheckClear("(3-)", "( 3 -");
-        insertCheckClear("(3)3", "( 3 )");
-        insertCheckClear("(3)+", "( 3 ) +");
-        insertCheckClear("1+((3)+)", "1 + ( ( 3 ) +");
-        insertCheckClear("1+((3)+()", "1 + ( ( 3 ) + (");
-        insertCheckClear("1+((3)+(2))", "1 + ( ( 3 ) + ( 2 ) )");
-        insertCheckClear("1+((3)(", "1 + ( ( 3 )");
-        insertCheckClear("1+((3)+(4+5)-2)", "1 + ( ( 3 ) + ( 4 + 5 ) - 2 )");
+        insertCheckClear("(3))", "(3)");
+        insertCheckClear("1+((3))", "1+((3))");
+        insertCheckClear("(3+)", "(3+");
+        insertCheckClear("(3-)", "(3-");
+        insertCheckClear("(3)3", "(3)");
+        insertCheckClear("(3)+", "(3)+");
+        insertCheckClear("1+((3)+)", "1+((3)+");
+        insertCheckClear("1+((3)+()", "1+((3)+(");
+        insertCheckClear("1+((3)+(2))", "1+((3)+(2))");
+        insertCheckClear("1+((3)(", "1+((3)");
+        insertCheckClear("1+((3)+(4+5)-2)", "1+((3)+(4+5)-2)");
 
         insertCheckClear(").", "0.");
-        insertCheckClear("(.)", "( 0.0 )");
-        insertCheckClear("(3.).", "( 3.0 )");
+        insertCheckClear("(.)", "(0.0)");
+        insertCheckClear("(3.).", "(3.0)");
     }
 
     public void testUndoWithParenthesis(){
@@ -402,10 +402,10 @@ public class ECalculonFragmentTest extends ActivityInstrumentationTestCase2<Main
         insertCheckClear("(U", "0");
         insertCheckClear("8+(-UUUU", "0");
         insertCheckClear("8+(--UUUUU", "0");
-        insertCheckClear("(8+8)-UU8", "( 8 + 88");
+        insertCheckClear("(8+8)-UU8", "(8+88");
         insertCheckClear("8-(-UUUU", "0");
         insertCheckClear("8--(-UUUUU", "0");
-        insertCheckClear("8+(8-4)-UU", "8 + ( 8 - 4");
+        insertCheckClear("8+(8-4)-UU", "8+(8-4");
 
     }
 
